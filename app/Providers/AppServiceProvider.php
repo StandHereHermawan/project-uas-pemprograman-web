@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
         //
         Paginator::useBootstrapFive();
         DB::listen(function (QueryExecuted $queryExecuted) {
-            Log::debug($queryExecuted->sql);
+            Log::debug($queryExecuted->toRawSql());
         });
     }
 }

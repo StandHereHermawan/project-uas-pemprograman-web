@@ -4,6 +4,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Pertemuan_11\MahasiswaController;
+use App\Http\Controllers\Pertemuan_12\PostBeritaController;
 use App\Http\Middleware\AlreadyLoginMiddleware;
 use App\Http\Middleware\NotYetLoginMiddleware;
 use App\Models\Pertemuan_11\Mahasiswa;
@@ -12,6 +13,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
+
+Route::get('/mahasiswa-post',function () {
+    return Mahasiswa::with('postBerita')->get();
+});
+
+Route::get('/home-custom',function () {
+    return view('home-custom');
+});
+
+Route::get('/mahasiswa-insert-post', [PostBeritaController::class, 'formPostMahasiswa']);
 
 Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
 
@@ -25,12 +38,6 @@ Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
         Route::post('', [AuthController::class, 'submitLoginForm']);
     });
 
-});
-
-Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
-
-Route::get('/mahasiswa-post',function () {
-    return Mahasiswa::with('postBerita')->get();
 });
 
 Route::middleware([NotYetLoginMiddleware::class])->group(function () {

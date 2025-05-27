@@ -1,0 +1,86 @@
+# version: "3.8"
+
+services:
+  db_latihan_pw9:
+    image: mysql:8.2.0-1.el8
+    container_name: db_latihan_pw9
+    ports:
+      - protocol: tcp
+        target: 3306
+        published: 3306
+    # The Simpler version of port compose
+    # 
+    # ports:
+    #   - "3306"
+    # 
+    # Or
+    # 
+    # ports:
+    #   - "3306:3306"
+    environment:
+      MYSQL_USER: bukan_admin
+      MYSQL_PASSWORD: rahasia
+      MYSQL_ROOT_PASSWORD: rahasia_admin
+      MYSQL_DATABASE: tugas_uas
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - db_latihan_pw9:/var/lib/mysql
+    networks:
+      - network_db_latihan_pw9
+    healthcheck:
+      test:
+        - CMD
+        - mysqladmin
+        - ping
+        - "-p rahasia"
+      retries: 3
+      timeout: 5s
+    # deploy:
+      # resources:
+        # reservations:
+          # cpus: "0.25"
+          # memory: 600m
+        # limits:
+          # cpus: "2"
+          # memory: 1g
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:5.2.2
+    container_name: phpmyadmin-container-pemprograman-web
+    ports:
+      - protocol: tcp
+        # post didalem container
+        target: 80
+        # port yang diekspos keluar
+        published: 8081
+    # ports:
+    # - "8080:80"
+    environment:
+      # PMA_HOST harus sama kayak nama
+      PMA_HOST: db_latihan_pw9
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: rahasia_admin
+      PMA_AUTH_TYPE: config
+      PMA_USER: root
+      PMA_PASSWORD: rahasia_admin
+    networks:
+      - network_db_latihan_pw9
+    depends_on: 
+      - db_latihan_pw9
+    # deploy:
+      # resources:
+        # reservations:
+          # cpus: "0.25"
+          # memory: 100m
+        # limits:
+          # cpus: "1"
+          # memory: 100m
+
+networks:
+  network_db_latihan_pw9:
+    name: network_db_latihan_pw9
+    driver: bridge
+
+volumes:
+  db_latihan_pw9:
+    name: db_latihan_pw9

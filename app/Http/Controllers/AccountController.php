@@ -22,6 +22,7 @@ class AccountController extends Controller
 
         return view('auth.account')
             ->with('name', $userModel->name)
+            ->with('role', $userModel->hasRole()->first()->role)
             ->with('email', $userModel->email);
     }
 }

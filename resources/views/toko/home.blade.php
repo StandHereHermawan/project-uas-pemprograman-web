@@ -30,7 +30,14 @@
                 <div class="d-flex justify-content-center mb-3 mb-lg-0 me-3">
                     <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor"
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor"
+                            class="bi bi-card-list me-2" viewBox="0 0 16 16">
+                            <path
+                                d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                            <path
+                                d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
+                        </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor"
                             class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path
                                 d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
@@ -43,7 +50,7 @@
     <!-- end of upper navbar -->
 
     <!-- offcanvas baru muncul kalau klik tombol navigation. -->
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
+    <div class="offcanvas offcanvas-start shadow-lg" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
 
         <div class="offcanvas-header">
@@ -66,6 +73,38 @@
             <p>{{$offCanvaHeader ?? "Lapo Marpaigon dalam bahasa batak artinya toko makanan."}}</p>
             <!-- first accordion -->
             <div class="accordion mb-3" id="accordionExample1">
+                @if ($userRole === "SELLER")
+
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                    class="bi bi-box2-heart me-2" viewBox="0 0 16 16">
+                                    <path d="M8 7.982C9.664 6.309 13.825 9.236 8 13 2.175 9.236 6.336 6.31 8 7.982" />
+                                    <path
+                                        d="M3.75 0a1 1 0 0 0-.8.4L.1 4.2a.5.5 0 0 0-.1.3V15a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4.5a.5.5 0 0 0-.1-.3L13.05.4a1 1 0 0 0-.8-.4zm0 1H7.5v3h-6zM8.5 4V1h3.75l2.25 3zM15 5v10H1V5z" />
+                                </svg>
+                                Produk
+                            </button>
+                        </h2>
+                        <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <form action="{{ url()->route('add-product') }}" method="get"
+                                    class="d-flex justify-content-center mb-3 mb-lg-0">
+                                    <button class="btn btn-outline-dark w-100" type="submit" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
+                                        Tambah Produk
+                                        </svg>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
+
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
@@ -135,12 +174,11 @@
 
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
 
-
                     @foreach ($barang as $item)
 
                         <div class="col">
 
-                            <div class="card h-100">
+                            <div class="card h-100 shadow">
                                 <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="140"
                                     preserveAspectRatio="xMidYMid slice" role="img" width="100%"
                                     xmlns="http://www.w3.org/2000/svg">

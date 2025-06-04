@@ -16,10 +16,15 @@ class HomeController extends Controller
 {
     public function homePage(Request $request)
     {
+        $email = $request->cookie('X-LOGIN-TOKEN');
+
         $barang = BarangJualan::select()->with('stock')->paginate(6);
+        $userModel = User::select()->where('email','=',$email)->first();
+        
         return response(
             view("toko.home")
                 ->with("barang", $barang)
+                ->with('userRole', $userModel->hasRole()->first()->role)
         );
     }
 
@@ -68,9 +73,58 @@ class HomeController extends Controller
         );
     }
 
+    public function addItemForm(Request $request)
+    {
+        $email = $request->cookie('X-LOGIN-TOKEN');
+
+        return view('toko.input-item');
+    }
+
+    public function submitAddItemForm(Request $request)
+    {
+        $orderedGoods = $request->only([
+            'goods-name',
+            'harga',
+            'stok-barang'
+        ]);
+
+        /**
+         * @var \Illuminate\Validation\Validator
+         */
+        $validator = Validator::make($orderedGoods, [
+            "goods-name" => ['required', 'min:4'],
+            'harga' => ['required', 'numeric', 'min:1000'],
+            'stok-barang' => ['required', 'numeric', 'min:1']
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return back()->withErrors($validator->getMessageBag());
+        }
+
+        $acceptedInput = $validator->validated();
+
+        DB::beginTransaction();
+
+        $barangJualanModel = BarangJualan::create([
+            "nama_barang" => $acceptedInput['goods-name'],
+            "harga" => $acceptedInput['harga']
+        ]);
+
+        StokBarang::create(
+            [
+                "id_barang_jualan" => $barangJualanModel->getId(),
+                "jumlah" => $acceptedInput['stok-barang']
+            ]
+        );
+        DB::commit();
+
+        return redirect()->route('home');
+    }
+
     public function submitPesanan(Request $request)
     {
-        // $email = $request->cookie('X-LOGIN-TOKEN');
+        $email = $request->cookie('X-LOGIN-TOKEN');
 
         $orderedGoods = $request->only([
             'goodsId',
@@ -139,7 +193,7 @@ class HomeController extends Controller
         $jumlahPembelian = $orderedGoods['quantity'];
 
         $transaksiPenjualanModel = DB::transaction(function () use ($userModel, $stokBarangModel, $jumlahPembelian, $totalHarga, $barangJualanModel, $jumlahAkhir) {
-            
+
             /**
              * @var \App\Models\User
              */

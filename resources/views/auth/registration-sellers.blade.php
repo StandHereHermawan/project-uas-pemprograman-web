@@ -83,6 +83,20 @@
                         </div>
                         <!-- end of password input  -->
 
+                        <!-- role input  -->
+                        <div class="form-floating mb-3">
+                            <input class="form-control" name="role" id="role" type="text" placeholder="role"
+                                value="{{ $role ?? "" }}" autocomplete="true" required/>
+                            <label for="role">Role</label>
+
+                            <!-- password error message -->
+                            @if ($errors->has('role'))
+                                <div class="text-danger">{{ $errors->first('role') }}</div>
+                            @endif
+                            <!-- end password error message -->
+                        </div>
+                        <!-- end of role input  -->
+
                         <!-- term of use input -->
                         <div class="form-check">
                             <div class="mb-3">
@@ -120,25 +134,6 @@
                             <div>
                                 Sistem Informasi Peminjaman Ruangan
                             </div>
-                            <!-- role error message -->
-                            @if ($sellerRoleIsNotYetAvailableInDatabase === true)
-                                <div class="text-danger text-center">
-                                    {{ "There is not available yet seller roles registered." }}
-                                </div>
-                            @endif
-                            <!-- end role error message -->
-
-                            <!-- user with role error message -->
-                            @if ($userThatIsASellerIsNotYetAvailableInDatabase === true)
-                                <div class="text-danger text-center">
-                                    {{ "There is not available yet seller users registered. Register as seller" }}
-                                    <div>
-                                        <a href="{{ url()->to('registration-seller') }}" class="text-decoration-none text-danger">Here</a>
-                                    </div>
-                                </div>
-                            @endif
-                            <!-- end of user with role error message -->
-
                         </div>
 
                     </div>

@@ -124,6 +124,24 @@
                             </a>
                         </div> -->
                     </div>
+                    <!-- end of informasi email -->
+                     <!-- informasi role -->
+                      <div class="list-group-item list-group-item-action">
+
+                        <div>
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Role</h5>
+                                <!-- <small class="text-body-secondary">Lorem_ipsum.</small> -->
+                            </div>
+                            <p class="mb-1">{{ $role ?? "Role not available" }}</p>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between">
+
+                        </div>
+                    </div>
+                    <!-- end of informasi role -->
                 </div>
             </div>
         </div>

@@ -11,16 +11,17 @@ use App\Models\Pertemuan_11\Mahasiswa;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+    return redirect()->route('home');
 });
 
 Route::get('/mahasiswa', [MahasiswaController::class, 'index']);
 
-Route::get('/mahasiswa-post',function () {
+Route::get('/mahasiswa-post', function () {
     return Mahasiswa::with('postBerita')->get();
 });
 
-Route::get('/home-custom',function () {
+Route::get('/home-custom', function () {
     return view('home-custom');
 });
 
@@ -33,6 +34,11 @@ Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
         Route::post('', [AuthController::class, 'submitRegistrationForm']);
     });
 
+    Route::prefix('/registration-seller')->group(function () {
+        Route::get('', [AuthController::class, 'registrationSellerForm'])->name('registration-seller');
+        Route::post('', [AuthController::class, 'submitRegistrationSellerForm']);
+    });
+
     Route::prefix('/login')->group(function () {
         Route::get('', [AuthController::class, 'loginForm'])->name('login');
         Route::post('', [AuthController::class, 'submitLoginForm']);
@@ -43,6 +49,10 @@ Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
         Route::post('', [AuthController::class, 'submitLoginForm']);
     });
 
+});
+
+Route::get('/view', function () {
+    return view('toko.input-item');
 });
 
 Route::middleware([NotYetLoginMiddleware::class])->group(function () {
@@ -62,6 +72,11 @@ Route::middleware([NotYetLoginMiddleware::class])->group(function () {
     Route::prefix('/detail-item')->group(function () {
         Route::get('', [HomeController::class, 'detailItem']);
         Route::post('', [HomeController::class, 'submitPesanan']);
+    });
+
+    Route::prefix('/add-products')->group(function () {
+        Route::get('', [HomeController::class, 'addItemForm'])->name('add-product');
+        Route::post('', [HomeController::class, 'submitAddItemForm']);
     });
 
     Route::prefix('/payment-status')->group(function () {

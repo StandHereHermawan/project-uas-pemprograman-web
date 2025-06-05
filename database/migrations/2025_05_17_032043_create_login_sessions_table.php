@@ -15,7 +15,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id')->unsigned()->primary()->autoIncrement();
             $table->string('email')->unique();
             $table->dateTime('expired_at');
-            $table->foreign("email")->references("email")->on("users")->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign("email")->references("email")->on("uas_users")->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

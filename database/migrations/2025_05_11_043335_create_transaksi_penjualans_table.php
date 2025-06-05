@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('status')->nullable(false)->default('pending');
             $table->unsignedBigInteger('total_harga')->default(0)->nullable(false);
             $table->datetimes();
-            $table->foreign("user_id")->references("id")->on("users")->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign("user_id")->references("id")->on("uas_users")->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign("id_barang_jualan")->references("id")->on("uas_barang_jualans")->cascadeOnUpdate()->cascadeOnDelete();
         });
     }

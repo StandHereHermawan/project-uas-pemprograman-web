@@ -13,6 +13,13 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string|null
+     */
+    protected $table = 'uas_users';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
@@ -44,5 +51,19 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * 
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function hasRole()
+    {
+        return $this->belongsToMany(Role::class, UserHasRole::TABLE_NAME);
     }
 }

@@ -147,19 +147,45 @@
 
                         <!-- Submit Button -->
                         <button type="submit" class="btn btn-register w-100 mb-3">
-                            <i class="bi bi-person-plus me-2"></i>Daftar
+                            <i class="bi bi-person-plus me-2"></i>Sign Up
                         </button>
 
                         <!-- Login Link -->
                         <div class="text-center">
                             <p class="mb-0">Sudah punya akun?
                                 <a href="{{ url()->route('login') }}" class="login-link">
-                                    Masuk disini
+                                    Login disini
                                 </a>
-                            </p>
+                            </div>
                         </div>
-                    </form>
-                </div>
+
+                        <div class="text-center">
+                            <div>
+                                Sistem Informasi Peminjaman Ruangan
+                            </div>
+                            <!-- role error message -->
+                            @if ($sellerRoleIsNotYetAvailableInDatabase === true)
+                                <div class="text-danger text-center">
+                                    {{ "There is not available yet seller roles registered." }}
+                                </div>
+                            @endif
+                            <!-- end role error message -->
+
+                            <!-- user with role error message -->
+                            @if ($userThatIsASellerIsNotYetAvailableInDatabase === true)
+                                <div class="text-danger text-center">
+                                    {{ "There is not available yet seller users registered. Register as seller" }}
+                                    <div>
+                                        <a href="{{ url()->to('registration-seller') }}" class="text-decoration-none text-danger">Here</a>
+                                    </div>
+                                </div>
+                            @endif
+                            <!-- end of user with role error message -->
+
+                        </div>
+
+                    </div>
+                </form>
             </div>
         </div>
     </main>

@@ -22,6 +22,7 @@ class BarangJualan extends Model
      * @var list<string>
      */
     protected $fillable = [
+        'user_id',
         'nama_barang',
         'harga'
     ];
@@ -56,5 +57,10 @@ class BarangJualan extends Model
     public function stock()
     {
         return $this->hasOne(StokBarang::class, 'id_barang_jualan', 'id');
+    }
+
+    public function seller()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

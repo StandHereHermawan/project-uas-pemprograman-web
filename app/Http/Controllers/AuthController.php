@@ -30,7 +30,12 @@ class AuthController extends Controller
 
         $userThatIsASellerIsNotYetAvailableInDatabase = true;
 
-        $userThatHasAsellerModel = UserHasRole::select()->where('role_id', '=', $sellerRoleModel->id)->first();
+        $userThatHasAsellerModel = null;
+
+        if ($sellerRoleModel !== null) {
+            # code...
+            $userThatHasAsellerModel = UserHasRole::select()->where('role_id', '=', $sellerRoleModel->id)->first();
+        }
 
         if ($userThatHasAsellerModel !== null) {
             # code...
@@ -53,6 +58,10 @@ class AuthController extends Controller
             ->where('role', '=', 'SELLER')
             ->first();
 
+        if ($sellerRoleModel === null) {
+            $sellerRoleModel = Role::create(["role" => "SELLER"]);
+        }
+
         return response()
             ->view('auth.registration-sellers', [
                 "sellerRoleIsNotYetAvailableInDatabase" => $sellerIsNotYetAvailableInDatabase,
@@ -66,7 +75,7 @@ class AuthController extends Controller
         return response()->view('auth.login');
     }
 
-    public function submitRegistrationForm(Request $request)
+    public function submitRegistrationCustomerForm(Request $request)
     {
         $rules = [
             "name" => ["required", "min:8", "max:255"],

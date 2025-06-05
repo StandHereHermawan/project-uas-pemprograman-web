@@ -4,105 +4,238 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
-    <title>{{$title ?? "Home Page"}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>{{ $title ?? 'Detail Produk' }}</title>
     <style>
-        .bs-max-card-height-20rem {
-            max-height: 20rem;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --muted-color: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background-color: white !important;
+        }
+
+        .product-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            background-color: white;
+        }
+
+        .product-image {
+            height: 300px;
+            object-fit: cover;
+            background-color: #f1f1f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted-color);
+        }
+
+        .price-tag {
+            color: var(--secondary-color);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .info-label {
+            color: var(--muted-color);
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1rem;
+        }
+
+        .logo-text {
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .quantity-input {
+            display: flex;
+            align-items: center;
+            max-width: 150px;
+        }
+
+        .quantity-input .btn {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+        }
+
+        .quantity-input .btn:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+
+        .quantity-input .btn:last-child {
+            border-radius: 0 5px 5px 0;
+        }
+
+        .quantity-input input {
+            width: 60px;
+            height: 40px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            border-bottom: 1px solid #dee2e6;
+            border-left: none;
+            border-right: none;
+        }
+
+        .quantity-input input:focus {
+            outline: none;
+            box-shadow: none;
+            border-color: #dee2e6;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
         }
     </style>
 </head>
 
 <body>
-    <header class="py-3 mb-4 border-bottom shadow sticky-top bg-body">
-        <div class="container d-flex flex-wrap justify-content-between">
-            <a href="#"
-                class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cart4"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
-                </svg> <span class="ms-2 fs-3">{{ $shopName ?? "Lapo Marpaigon" }}</span>
-            </a>
-            <div class="col-12 col-lg-auto" role="search">
-                @csrf
-                <form action="/home">
-                    <button type="submit" class="btn btn-outline-dark w-100">Home</button>
+    <!-- Header Navigation -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <button onclick="window.history.back()" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali
+                </button>
+            </div>
+
+            <div class="mx-auto">
+                <h1 class="mb-0 fs-4 fw-bold logo-text">{{ $shopName ?? 'Lapo Marpaigon' }}</h1>
+            </div>
+
+            <div class="d-flex align-items-center">
+                <form action="{{ url()->to('home') }}" method="get">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="bi bi-house-door me-1"></i> Home
+                    </button>
                 </form>
             </div>
         </div>
     </header>
+    <!-- End of Header Navigation -->
 
-    <div class="container-fluid">
+    <!-- Main Content -->
+    <main class="container my-5">
         <div class="row">
-            <div class="col-8 col-md-5 offset-md-1">
-                <div>
-                    <h5>Nama Barang</h5>
-                    <p class="opacity-75">{{ $namaBarang ?? "Belum ada" }}</p>
-                    <h5>Harga</h5>
-                    <p class="opacity-75">{{ "Rp" . $hargaBarang ?? "Rp.0" }} per Satuan</p>
-                    <h5>Stok</h5>
-                    <p class="opacity-75">{{ $jumlah ?? "0" }}</p>
-                    <h5>Nama Penjual</h5>
-                    <p class="opacity-75">{{ $namaPenjual ?? "0" }}</p>
+
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="product-image rounded-3 mb-4">
+                    [Gambar Produk]
                 </div>
-
-                <form action="{{ url()->current() }}" method="post" class="col-auto">
-                    @csrf
-
-                    <div>
-                        <h5>Nama Pembeli</h5>
-                        <p class="opacity-75">{{ $namaPembeli }}</p>
-                        <input type="hidden" name="buyers" value="{{ $namaPembeli }}">
-                        <input type="hidden" name="buyers-id" value="{{ $idPembeli }}">
-                    </div>
-                    <input type="hidden" name="goodsId" value="{{ $idBarang ?? "0" }}">
-
-                    <div>
-                        <h5>Hendak Membeli Sebanyak</h5>
-                        <div class="form-floating mb-1">
-                            <input type="text" class="form-control" name="quantity" id="floatingInput" value="1">
-                            <label for="floatingInput overflow-x">Jumlah pembelian</label>
-                        </div>
-                        <!-- password error message -->
-                        @if ($errors->has('quantity'))
-                            <div class="text-danger mb-2">{{ $errors->first('quantity') }}</div>
-                        @endif
-                        <!-- end password error message -->
-
-                    </div>
-
-                    <button type="submit" class="btn btn-outline-dark mt-2">Pesan</button>
-
-                </form>
             </div>
 
-            <div class="col-8 col-lg-3 offset-0 offset-md-1 offset-lg-0">
-                <div class="col">
-                    <div class="card bs-max-card-height-20rem mt-2 mt-lg-0 w-100">
-                        <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="140"
-                            preserveAspectRatio="xMidYMid slice" role="img" width="100%"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <title>Placeholder</title>
-                            <rect width="100%" height="100%" fill="#868e96"></rect>
-                            <text x="41%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
-                        </svg>
-                        <div class="card-body">
-                            <div class="d-flex justify-content-center">
-                                <h5 class="card-title">{{ $namaBarang ?? "Belum ada" }}</h5>
-                            </div>
+            <div class="col-lg-6">
+                <div class="product-card p-4 h-100">
+                    <h2 class="mb-4">{{ $namaBarang ?? 'Nama Produk' }}</h2>
+                    <div class="mb-4">
+                        <div class="info-label">Harga</div>
+                        <div class="price-tag">
+                            Rp{{ number_format($hargaBarang ?? 0, 0, ',', '.') }} per satuan
                         </div>
                     </div>
+
+                    <div class="mb-4">
+                        <div class="info-label">Stok Tersedia</div>
+                        <div class="info-value">{{ $jumlah ?? '0' }}</div>
+                    </div>
+
+                    <form action="{{ url()->current() }}" method="post">
+                        @csrf
+
+                        <div class="mb-4">
+                            <div class="info-label">Nama Pembeli</div>
+                            <div class="info-value">{{ $namaPembeli ?? 'Guest' }}</div>
+                            <input type="hidden" name="buyers" value="{{ $namaPembeli }}">
+                            <input type="hidden" name="buyers-id" value="{{ $idPembeli }}">
+                            <input type="hidden" name="goodsId" value="{{ $idBarang ?? '0' }}">
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="quantity" class="form-label info-label">Jumlah Pembelian</label>
+                            <div class="quantity-input">
+                                <button type="button" class="btn btn-minus">
+                                    <i class="bi bi-dash"></i>
+                                </button>
+                                <input type="number" class="form-control" name="quantity" id="quantity" value="1"
+                                    min="1" max="{{ $jumlah ?? '' }}">
+                                <button type="button" class="btn btn-plus">
+                                    <i class="bi bi-plus"></i>
+                                </button>
+                            </div>
+                            @if ($errors->has('quantity'))
+                                <div class="text-danger small mt-1">{{ $errors->first('quantity') }}</div>
+                            @endif
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="bi bi-cart-plus me-1"></i> Pesan Sekarang
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
+    </main>
+    <!-- End of Main Content -->
 
-    </div>
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const quantityInput = document.getElementById('quantity');
+            const btnMinus = document.querySelector('.btn-minus');
+            const btnPlus = document.querySelector('.btn-plus');
+            const maxStock = parseInt(quantityInput.getAttribute('max')) || Infinity;
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=" crossorigin="anonymous"></script>
+            btnMinus.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value > 1) {
+                    quantityInput.value = value - 1;
+                }
+            });
+
+            btnPlus.addEventListener('click', function() {
+                let value = parseInt(quantityInput.value);
+                if (value < maxStock) {
+                    quantityInput.value = value + 1;
+                }
+            });
+
+            quantityInput.addEventListener('change', function() {
+                let value = parseInt(this.value);
+                if (isNaN(value) || value < 1) {
+                    this.value = 1;
+                } else if (value > maxStock) {
+                    this.value = maxStock;
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

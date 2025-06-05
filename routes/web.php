@@ -44,6 +44,11 @@ Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
         Route::post('', [AuthController::class, 'submitLoginForm']);
     });
 
+    Route::prefix('/seller-login')->group(function () {
+        Route::get('', [AuthController::class, 'loginForm'])->name('login');
+        Route::post('', [AuthController::class, 'submitLoginForm']);
+    });
+
 });
 
 Route::get('/view', function () {

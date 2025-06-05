@@ -18,6 +18,7 @@ class HomeController extends Controller
     {
         $email = $request->cookie('X-LOGIN-TOKEN');
 
+
         $barang = null;
 
         $userModel = User::select()
@@ -28,7 +29,7 @@ class HomeController extends Controller
             $barang = BarangJualan::select()
                 ->with('stock')
                 ->with('seller')
-                ->paginate(6);
+                ->paginate(8);
         }
 
         if ($userModel->hasRole()->first()->role === "SELLER") {
@@ -36,7 +37,7 @@ class HomeController extends Controller
                 ->where('user_id', '=', $userModel->getId())
                 ->with('stock')
                 ->with('seller')
-                ->paginate(6);
+                ->paginate(8);
         }
 
         return response(

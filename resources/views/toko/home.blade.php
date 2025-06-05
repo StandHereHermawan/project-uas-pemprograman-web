@@ -4,28 +4,204 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
-    <title>{{$title ?? "Lapo Marpaigon"}}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>{{ $title ?? 'Lapo Marpaigon' }}</title>
     <style>
-        .bs-max-card-height-20rem {
-            max-height: 20rem;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --muted-color: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+
+        .navbar-brand {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background-color: white !important;
+        }
+
+        .nav-icon {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+        }
+
+        .offcanvas-header {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-img-top {
+            object-fit: cover;
+            height: 200px;
+            background-color: #f1f1f1;
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .price {
+            color: var(--secondary-color);
+            font-weight: 700;
+        }
+
+        .stock {
+            color: var(--muted-color);
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 8px 16px;
+            border-radius: 5px;
+        }
+
+        .btn-primary:hover {
+            background-color: #c0392b;
+        }
+
+        .btn-outline-secondary {
+            border-radius: 5px;
+        }
+
+        .page-item.active .page-link {
+            background-color: var(--secondary-color);
+            border-color: var(--secondary-color);
+        }
+
+        .page-link {
+            color: var(--secondary-color);
+        }
+
+        .accordion-button:not(.collapsed) {
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--secondary-color);
+        }
+
+        .offcanvas-body {
+            padding: 1rem 1.5rem;
+        }
+
+        .logo-text {
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .placeholder-img {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f1f1f1;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .hero-carousel {
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .carousel-item {
+            height: 400px;
+            background-color: #f1f1f1;
+        }
+
+        .carousel-img {
+            object-fit: cover;
+            height: 100%;
+            width: 100%;
+        }
+
+        .carousel-caption {
+            background-color: rgba(44, 62, 80, 0.7);
+            border-radius: 5px;
+            padding: 1.5rem;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80%;
+        }
+
+        .carousel-control-prev,
+        .carousel-control-next {
+            width: 5%;
+        }
+
+        .carousel-indicators button {
+            background-color: var(--primary-color);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin: 0 5px;
+            border: none;
+        }
+
+        .carousel-indicators button.active {
+            background-color: var(--secondary-color);
+        }
+
+        @media (max-width: 768px) {
+            .carousel-item {
+                height: 250px;
+            }
+
+            .carousel-caption {
+                padding: 1rem;
+                bottom: 1rem;
+            }
+
+            .carousel-caption h5 {
+                font-size: 1rem;
+            }
+
+            .carousel-caption p {
+                font-size: 0.8rem;
+                display: none;
+                /* Sembunyikan deskripsi di mobile */
+            }
         }
     </style>
 </head>
 
 <body>
-    <!-- upper navbar -->
-    <header class="py-3 mb-4 border-bottom shadow sticky-top bg-body">
-        <div class="container d-flex flex-wrap justify-content-center">
-            <div href="#"
-                class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cart4"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
-                </svg> <span class="ms-2 fs-3">{{ $shopName ?? "Lapo Marpaigon" }}</span>
+    <!-- upper navbar - Perbaikan -->
+    <header class="py-3 mb-4 border-bottom shadow-sm sticky-top bg-white">
+        <div class="container d-flex flex-wrap justify-content-between align-items-center">
+            <div class="d-flex align-items-center mb-2 mb-lg-0">
+                <i class="bi bi-shop fs-3 text-primary me-2"></i>
+                <span class="fs-4 fw-bold logo-text">{{ $shopName ?? 'Lapo Marpaigon' }}</span>
             </div>
+
             <div class="col-12 col-lg-auto">
                 <div class="d-flex justify-content-center mb-3 mb-lg-0 me-3">
                     <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas"
@@ -59,28 +235,20 @@
             </div>
         </div>
     </header>
-    <!-- end of upper navbar -->
 
     <!-- offcanvas baru muncul kalau klik tombol navigation. -->
     <div class="offcanvas offcanvas-start shadow-lg" data-bs-scroll="true" data-bs-backdrop="false" tabindex="-1"
         id="offcanvasScrolling" aria-labelledby="offcanvasScrollingLabel">
 
         <div class="offcanvas-header">
-            <div class="container-fluid row">
-                <div class="col">
-                    <h5 class="offcanvas-title text-dark" id="offcanvasScrollingLabel">{{$title ?? "Lapo Marpaigon"}}
-                    </h5>
-                </div>
-
-                <div class="col-1">
-                    <div class="pt-2">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                    </div>
-                </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+                <h5 class="offcanvas-title mb-0" id="offcanvasScrollingLabel">
+                    <i class="bi bi-shop me-2"></i>{{ $title ?? 'Lapo Marpaigon' }}
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
             </div>
         </div>
 
-        <!-- sidebar -->
         <div class="offcanvas-body">
             <p>{{$offCanvaHeader ?? "Lapo Marpaigon dalam bahasa batak artinya toko makanan."}}</p>
             <!-- first accordion -->
@@ -118,83 +286,126 @@
                 @endif
 
                 @if ($userRole === "CUSTOMER")
-
-                    <div class="accordion-item">
-                        <h2 class="accordion-header">
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                    class="bi bi-bag-check me-2" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd"
-                                        d="M10.854 8.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708 0" />
-                                    <path
-                                        d="M8 1a2.5 2.5 0 0 1 2.5 2.5V4h-5v-.5A2.5 2.5 0 0 1 8 1m3.5 3v-.5a3.5 3.5 0 1 0-7 0V4H1v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V4zM2 5h12v9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
-                                </svg>
-                                Belanja
-                            </button>
-                        </h2>
-                        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <form action="{{ url()->to('payment-status') }}" method="get"
-                                    class="d-flex justify-content-center mb-3 mb-lg-0">
-                                    <button class="btn btn-outline-dark w-100" type="submit" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                                        Histori Belanja
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                @endif
-
                 <div class="accordion-item">
                     <h2 class="accordion-header">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseOne1" aria-expanded="false" aria-controls="collapseOne1">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
-                                class="bi bi-person me-2" viewBox="0 0 16 16">
-                                <path
-                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                            </svg>
-                            Bagian Pengguna
+                        <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseShopping" aria-expanded="false" aria-controls="collapseShopping">
+                            <i class="bi bi-cart3 me-3"></i>Belanja
                         </button>
                     </h2>
-                    <div id="collapseOne1" class="accordion-collapse collapse" data-bs-parent="#accordionExample1">
-                        <div class="accordion-body">
-                            <form action="{{ url()->to('account') }}" method="get"
-                                class="d-flex justify-content-center mb-3 mb-lg-0">
-                                <button class="btn btn-outline-dark w-100" type="submit" data-bs-toggle="offcanvas"
-                                    data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                                    Akun Pribadi
+                    <div id="collapseShopping" class="accordion-collapse collapse" data-bs-parent="#mainMenuAccordion">
+                        <div class="accordion-body px-4 py-3">
+                            <form action="{{ url()->to('payment-status') }}" method="get" class="mb-2">
+                                <button class="btn btn-outline-dark w-100 py-2 px-3 text-start" type="submit">
+                                    <i class="bi bi-clock-history me-2"></i>Histori Belanja
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                @endif
+
+                <!-- User Section -->
+                <div class="accordion-item border-0 mb-3">
+
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
+                            <i class="bi bi-person me-3"></i>Akun Pengguna
+                        </button>
+                    </h2>
+                    <div id="collapseUser" class="accordion-collapse collapse" data-bs-parent="#mainMenuAccordion">
+                        <div class="accordion-body px-4 py-3">
+                            <form action="{{ url()->to('account') }}" method="get" class="mb-2">
+                                <button class="btn btn-outline-dark w-100 py-2 px-3 text-start" type="submit">
+                                    <i class="bi bi-person-circle me-2"></i>Akun Pribadi
+                                </button>
+                            </form>
+                            <form action="{{ url()->route('logout') }}" method="post" class="mb-0">
+                                @csrf
+                                <button class="btn btn-outline-danger w-100 py-2 px-3 text-start" type="submit">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- end of first accordion -->
+            <!-- End of Menu Accordion -->
         </div>
-        <!-- end of sidebar -->
     </div>
-    <!-- offcanvas baru muncul kalau klik tombol navigation. -->
+    <!-- End of Offcanvas Menu -->
 
-    <!-- barang jualan -->
-    <div class="container">
-        <div class="col">
+    <!-- Main Content -->
+    <main class="container my-5">
+        <!-- Hero Carousel -->
+        <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+            </div>
 
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="https://thumb.viva.id/vivapurwasuka/1265x711/2025/01/12/67833b3fd2462-gehu-pedas_purwasuka.jpg"
+                        class="d-block w-100 carousel-img" alt="Promo Spesial">
+                    <div class="carousel-caption text-start">
+                        <h5>Promo Spesial Hari Ini</h5>
+                        <p>Dapatkan diskon hingga 30% untuk produk pilihan</p>
+                        <a href="#" class="btn btn-primary btn-sm">Lihat Promo</a>
+                    </div>
+                </div>
 
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="https://thumb.viva.id/vivabandung/1265x711/2025/02/21/67b84865b58de-batagor-khas-bandung_bandung.jpg"
+                        class="d-block w-100 carousel-img" alt="Produk Terbaru">
+                    <div class="carousel-caption">
+                        <h5>Produk Terbaru</h5>
+                        <p>Temukan koleksi terbaru kami yang segar dan lezat</p>
+                        <a href="#" class="btn btn-primary btn-sm">Jelajahi</a>
+                    </div>
+                </div>
+
+                <!-- Slide 3 -->
+                <div class="carousel-item">
+                    <img src="https://mediapijar.com/wp-content/uploads/2017/11/Cireng-Rujak-at-Armor-Kopi-Bandung-by-Myfunfoodiary-03-fb.jpg"
+                        class="d-block w-100 carousel-img" alt="Pengiriman Cepat">
+                    <div class="carousel-caption text-end">
+                        <h5>Pengiriman Kilat</h5>
+                        <p>Pesanan Anda akan sampai dalam waktu 2 jam</p>
+                        <a href="#" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
+                data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel"
+                data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+        <!-- End Hero Carousel -->
+
+        <!-- Bagian produk tetap sama -->
+        <div class="row">
             @if (isset($barang) && is_iterable($barang))
+                <!-- Pagination -->
+                <div class="mb-4">
+                    {{ $barang->onEachSide(3)->links() }}
+                </div>
 
-                <div>{{ $barang->onEachSide(3)->links() }}</div>
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
-
+                <!-- Product Grid -->
+                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                     @foreach ($barang as $item)
-
                         <div class="col">
-
                             <div class="card h-100 shadow">
                                 <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="140"
                                     preserveAspectRatio="xMidYMid slice" role="img" width="100%"
@@ -204,16 +415,13 @@
                                     <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                                 </svg>
                                 <div class="card-body">
-                                    <div class="d-flex w-100 justify-content-between">
-                                        <h5 class="card-title">
-                                            {{ $item->getNamaBarang() }}
-                                        </h5>
-                                        <h5 class="card-title opacity-50">
-                                            {{ "Rp" . $item->getHarga() }}
-                                        </h5>
+
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title mb-0">{{ $item->getNamaBarang() }}</h5>
+                                        <span
+                                            class="price">Rp{{ number_format($item->getHarga(), 0, ',', '.') }}</span>
                                     </div>
-
-
+                                    <p class="stock mb-3">Stok: {{ $item->stock->jumlah ?? '0' }}</p>
                                     @if ($userRole === "CUSTOMER")
                                         <div>
                                             <div class="opacity-50">{{ $item->seller->name ?? "0" }}</div>
@@ -223,59 +431,32 @@
                                                 </b>
                                             </div>
                                         </div>
-
-                                        <form action="/detail-item" method="get" class="mb-2">
+                                        <form action="/detail-item" method="get">
                                             <input type="hidden" name="id" value="{{ $item->getId() }}">
-                                            <button type="submit" class="btn btn-outline-secondary w-100">Beli</button>
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                <i class="bi bi-cart-plus me-1"></i> Beli
+                                            </button>
                                         </form>
-
                                     @endif
-                                    <!-- <p class="card-text">
-                                                This is a longer card with supporting text below as a natural
-                                                lead-in to additional content. 
-                                                This content is a little bit longer.
-                                            </p> -->
                                 </div>
                             </div>
-
                         </div>
-
                     @endforeach
-
                 </div>
-
+                <!-- End of Product Grid -->
             @else
-
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 g-4">
-
-                    <div class="col">
-                        <div class="card h-100">
-                            <svg aria-label="Placeholder: Image cap" class="bd-placeholder-img card-img-top" height="140"
-                                preserveAspectRatio="xMidYMid slice" role="img" width="100%"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <title>Placeholder</title>
-                                <rect width="100%" height="100%" fill="#868e96"></rect><text x="50%" y="50%" fill="#dee2e6"
-                                    dy=".3em">Image cap</text>
-                            </svg>
-                            <div class="card-body">
-                                <h5 class="card-title">Card title</h5>
-                                <p class="card-text">This is a longer card with supporting text below as a natural
-                                    lead-in to additional content. This content is a little bit longer.</p>
-                            </div>
-                        </div>
-                    </div>
+                <!-- Empty State -->
+                <div class="col-12 text-center py-5">
+                    <i class="bi bi-box-seam display-4 text-muted mb-3"></i>
+                    <h4 class="text-muted">Tidak ada produk tersedia</h4>
+                    <p class="text-muted">Silakan kembali lagi nanti</p>
                 </div>
-
             @endif
-
-
         </div>
+    </main>
+    <!-- End of Main Content -->
 
-    </div>
-    <!-- end of barang jualan -->
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

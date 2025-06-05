@@ -37,12 +37,16 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-8 col-md-5 offset-md-1">
-                <h5>Nama Barang</h5>
-                <p class="opacity-75">{{ $namaBarang ?? "Belum ada" }}</p>
-                <h5>Harga</h5>
-                <p class="opacity-75">{{ "Rp" . $hargaBarang ?? "Rp.0" }} per Satuan</p>
-                <h5>Stok</h5>
-                <p class="opacity-75">{{ $jumlah ?? "0" }}</p>
+                <div>
+                    <h5>Nama Barang</h5>
+                    <p class="opacity-75">{{ $namaBarang ?? "Belum ada" }}</p>
+                    <h5>Harga</h5>
+                    <p class="opacity-75">{{ "Rp" . $hargaBarang ?? "Rp.0" }} per Satuan</p>
+                    <h5>Stok</h5>
+                    <p class="opacity-75">{{ $jumlah ?? "0" }}</p>
+                    <h5>Nama Penjual</h5>
+                    <p class="opacity-75">{{ $namaPenjual ?? "0" }}</p>
+                </div>
 
                 <form action="{{ url()->current() }}" method="post" class="col-auto">
                     @csrf

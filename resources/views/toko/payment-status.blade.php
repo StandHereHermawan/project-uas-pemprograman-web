@@ -40,10 +40,10 @@
                     <thead>
                         <tr>
                             <th scope="col">
-                                <div class="d-flex justify-content-center">Nomor Transaction</div>
+                                <div class="d-flex justify-content-center">Id Transaction</div>
                             </th>
                             <th scope="col">
-                                <div class="d-flex justify-content-center">Id Barang</div>
+                                <div class="d-flex justify-content-center">Nama Penjual</div>
                             </th>
                             <th scope="col">
                                 <div class="d-flex justify-content-center">Barang</div>
@@ -79,7 +79,7 @@
                                     </th>
                                     <td>
                                         <div class="d-flex justify-content-center">
-                                            {{ $transactionPerItem->id_barang_jualan }}
+                                            {{ $transactionPerItem->barangDibeli->seller->name }}
                                         </div>
                                     </td>
                                     <td>

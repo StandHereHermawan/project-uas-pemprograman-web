@@ -31,7 +31,7 @@ Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
 
     Route::prefix('/registration')->group(function () {
         Route::get('', [AuthController::class, 'registrationForm'])->name('registration');
-        Route::post('', [AuthController::class, 'submitRegistrationForm']);
+        Route::post('', [AuthController::class, 'submitRegistrationCustomerForm']);
     });
 
     Route::prefix('/registration-seller')->group(function () {

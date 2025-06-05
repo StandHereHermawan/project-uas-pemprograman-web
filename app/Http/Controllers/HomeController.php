@@ -18,9 +18,27 @@ class HomeController extends Controller
     {
         $email = $request->cookie('X-LOGIN-TOKEN');
 
-        $barang = BarangJualan::select()->with('stock')->paginate(6);
-        $userModel = User::select()->where('email','=',$email)->first();
-        
+        $barang = null;
+
+        $userModel = User::select()
+            ->where('email', '=', $email)
+            ->first();
+
+        if ($userModel->hasRole()->first()->role === "CUSTOMER") {
+            $barang = BarangJualan::select()
+                ->with('stock')
+                ->with('seller')
+                ->paginate(6);
+        }
+
+        if ($userModel->hasRole()->first()->role === "SELLER") {
+            $barang = BarangJualan::select()
+                ->where('user_id', '=', $userModel->getId())
+                ->with('stock')
+                ->with('seller')
+                ->paginate(6);
+        }
+
         return response(
             view("toko.home")
                 ->with("barang", $barang)
@@ -66,6 +84,7 @@ class HomeController extends Controller
             view("toko.detail-item")
                 ->with("namaBarang", $itemBarang->getNamaBarang())
                 ->with("namaPembeli", $userModel->name)
+                ->with("namaPenjual", $itemBarang->seller->first()->name)
                 ->with("idPembeli", $userModel->id)
                 ->with("hargaBarang", $itemBarang->getHarga())
                 ->with("jumlah", $stokBarang->getStokBarang())
@@ -82,6 +101,8 @@ class HomeController extends Controller
 
     public function submitAddItemForm(Request $request)
     {
+        $email = $request->cookie('X-LOGIN-TOKEN');
+
         $orderedGoods = $request->only([
             'goods-name',
             'harga',
@@ -102,11 +123,14 @@ class HomeController extends Controller
             return back()->withErrors($validator->getMessageBag());
         }
 
+        $userModel = User::select()->where('email', '=', $email)->first();
+
         $acceptedInput = $validator->validated();
 
         DB::beginTransaction();
 
         $barangJualanModel = BarangJualan::create([
+            "user_id" => $userModel->getId(),
             "nama_barang" => $acceptedInput['goods-name'],
             "harga" => $acceptedInput['harga']
         ]);

@@ -1,158 +1,186 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $title ?? "Registration" }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-        crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <title>{{ $title ?? 'Registrasi' }}</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --muted-color: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .register-card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            background-color: white;
+        }
+
+        .form-control:focus {
+            border-color: var(--secondary-color);
+            box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25);
+        }
+
+        .btn-register {
+            background-color: var(--secondary-color);
+            color: white;
+            border: none;
+            padding: 10px 0;
+            font-weight: 500;
+        }
+
+        .btn-register:hover {
+            background-color: #c0392b;
+            color: white;
+        }
+
+        .register-header {
+            color: var(--primary-color);
+            font-weight: 600;
+        }
+
+        .form-text {
+            color: var(--muted-color);
+            font-size: 0.85rem;
+        }
+
+        .login-link {
+            color: var(--secondary-color);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .login-link:hover {
+            text-decoration: underline;
+        }
+
+        .terms-check {
+            accent-color: var(--secondary-color);
+        }
+    </style>
 </head>
 
 <body>
-    <div class="mt-3">
+    <main class="container my-auto py-4">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="register-card p-4 p-md-5">
+                    <!-- Logo/Header -->
+                    <div class="text-center mb-4">
+                        <i class="bi bi-shop fs-1 text-secondary"></i>
+                        <h1 class="register-header mt-2">{{ $shopName ?? 'Lapo Marpaigon' }}</h1>
+                    </div>
 
-        <div class="container-fluid container-md">
-            <div class="col-auto col-sm-8 offset-sm-2 col-lg-6 offset-lg-3">
+                    <h2 class="text-center mb-4">{{ $header ?? 'Buat Akun Baru' }}</h2>
 
-                <form id="myForm" method="post" class="border rounded-3" novalidate>
-                    @csrf
-                    <div class="p-4">
-                        <!-- header form -->
-                        <h1 class="mb-4 text-center text-secondary">{{ $header ?? "Registration" }}</h1>
-                        <!-- end header form -->
+                    <form id="registerForm" method="post">
+                        @csrf
 
-                        <!-- Name input -->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" name="name" id="name" type="text" value="{{ old("name") }}"
-                                placeholder="name" autocomplete="true" required />
-                            <label for="name">Name</label>
-
-                            <div class="d-flex w-100 justify-content-between">
-                                <div id="" class="form-text">Pick Your Name Here!</div>
-                                <div id="" class="form-text">Example: Saya Lorem Ipsum.</div>
-                            </div>
-
-                            <!-- name error message -->
+                        <!-- Name Input -->
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control py-2" name="name" id="name"
+                                placeholder="Nama Anda" value="{{ old('name') }}" required>
+                            <div class="form-text">Contoh: John Doe</div>
                             @if ($errors->has('name'))
-                                <div class="text-danger">{{ $errors->first('name') }}</div>
+                                <div class="text-danger small mt-1">{{ $errors->first('name') }}</div>
                             @endif
-                            <!-- end name error message -->
                         </div>
-                        <!-- end Name input  -->
 
-
-
-                        <!-- email input -->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" name="email" id="email" type="text" placeholder="email"
-                                value="{{ old("email") }}" autocomplete="true" required />
-                            <label for="email">Email</label>
-
-                            <div class="d-flex w-100 justify-content-between">
-                                <div id="" class="form-text">Pick Your Email Here!</div>
-                                <div id="" class="form-text">Example: iamlucky@gmail.com</div>
-                            </div>
-
-                            <!-- email error message -->
+                        <!-- Email Input -->
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control py-2" name="email" id="email"
+                                placeholder="alamat@email.com" value="{{ old('email') }}" required>
+                            <div class="form-text">Contoh: iamlucky@gmail.com</div>
                             @if ($errors->has('email'))
-                                <div class="text-danger">{{ $errors->first('email') }}</div>
+                                <div class="text-danger small mt-1">{{ $errors->first('email') }}</div>
                             @endif
-                            <!-- end email error message -->
                         </div>
-                        <!-- end of email input  -->
 
-
-
-                        <!-- password input  -->
-                        <div class="form-floating mb-3">
-                            <input class="form-control" name="password" id="password" type="text" placeholder="password"
-                                value="{{ old("password") }}" autocomplete="true" required />
-                            <label for="password">Password</label>
-
-                            <div id="" class="form-text">Example: iamLucky@12345</div>
-
-                            <!-- password error message -->
+                        <!-- Password Input -->
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Password</label>
+                            <div class="input-group">
+                                <input type="password" class="form-control py-2" name="password" id="password"
+                                    placeholder="Buat password" required>
+                                <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                    <i class="bi bi-eye"></i>
+                                </button>
+                            </div>
+                            <div class="form-text">Minimal 8 karakter dengan kombinasi huruf dan angka</div>
                             @if ($errors->has('password'))
-                                <div class="text-danger">{{ $errors->first('password') }}</div>
+                                <div class="text-danger small mt-1">{{ $errors->first('password') }}</div>
                             @endif
-                            <!-- end password error message -->
                         </div>
-                        <!-- end of password input  -->
 
-                        <!-- term of use input -->
-                        <div class="form-check">
-                            <div class="mb-3">
-
-                                <input class="form-check-input" type="checkbox" name="agreedTermsOfUse"
-                                    id="terms-of-use-check" required />
-                                <label for="terms-of-use-check" class="form-check-label">Terms of Use</label>
-
-                                <!-- terms of use error message -->
+                        <!-- Terms Checkbox -->
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input terms-check" type="checkbox" name="agreedTermsOfUse"
+                                    id="terms-of-use-check" required>
+                                <label class="form-check-label" for="terms-of-use-check">
+                                    Saya menyetujui Syarat dan Ketentuan
+                                </label>
                                 @if ($errors->has('agreedTermsOfUse'))
-                                    <div class="text-danger">{{ $errors->first('agreedTermsOfUse') }}</div>
+                                    <div class="text-danger small mt-1">{{ $errors->first('agreedTermsOfUse') }}</div>
                                 @endif
-                                <!-- end terms of use error message -->
                             </div>
                         </div>
-                        <!-- end of term of use input  -->
 
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-register w-100 mb-3">
+                            <i class="bi bi-person-plus me-2"></i>Daftar
+                        </button>
 
-
-                        <!-- button submit input -->
-                        <div class="form-floating mb-3">
-                            <button type="submit" class="btn btn-outline-secondary w-100">Sign Up</button>
-                        </div>
-                        <!-- end of button submit input -->
-
-                        <div class="form-floating text-center">
-                            <p>
-                                Sudah punya akun?
-                                <a class="text-secondary link-underline link-underline-opacity-0" href="{{ url()->route('login') }}">
-                                    Login disini.
+                        <!-- Login Link -->
+                        <div class="text-center">
+                            <p class="mb-0">Sudah punya akun?
+                                <a href="{{ url()->route('login') }}" class="login-link">
+                                    Masuk disini
                                 </a>
                             </p>
                         </div>
-
-                        <div class="form-floating text-center">
-                            <p>
-                                Sistem Informasi Peminjaman Ruangan
-                            </p>
-                        </div>
-                    </div>
-                </form>
-
+                    </form>
+                </div>
             </div>
-
         </div>
+    </main>
 
-    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // document.addEventListener("DOMContentLoaded", function () {
-        //     // Ambil semua input dalam form
-        //     let inputs = document.querySelectorAll("#myForm input, #myForm password");
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
 
-        //     // Cek apakah ada data tersimpan, lalu isi kembali
-        //     inputs.forEach(input => {
-        //         let savedValue = localStorage.getItem(input.id);
-        //         if (savedValue) {
-        //             input.value = savedValue;
-        //         }
-
-        //         // Simpan value setiap kali berubah
-        //         input.addEventListener("input", function () {
-        //             localStorage.setItem(input.id, input.value);
-        //         });
-        //     });
-
-        //     // Hapus data saat form dikirim
-        //     // document.getElementById("myForm").addEventListener("submit", function () {
-        //     //     localStorage.clear();
-        //     // });
-        // });
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('bi-eye');
+                icon.classList.add('bi-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('bi-eye-slash');
+                icon.classList.add('bi-eye');
+            }
+        });
     </script>
 </body>
 

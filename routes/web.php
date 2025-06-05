@@ -32,8 +32,13 @@ Route::middleware(AlreadyLoginMiddleware::class)->group(function () {
         Route::get('', [AuthController::class, 'registrationForm'])->name('registration');
         Route::post('', [AuthController::class, 'submitRegistrationForm']);
     });
-    
+
     Route::prefix('/login')->group(function () {
+        Route::get('', [AuthController::class, 'loginForm'])->name('login');
+        Route::post('', [AuthController::class, 'submitLoginForm']);
+    });
+
+    Route::prefix('/seller-login')->group(function () {
         Route::get('', [AuthController::class, 'loginForm'])->name('login');
         Route::post('', [AuthController::class, 'submitLoginForm']);
     });
@@ -45,20 +50,20 @@ Route::middleware([NotYetLoginMiddleware::class])->group(function () {
     Route::prefix('/account')->group(function () {
         Route::get('', [AccountController::class, 'account'])->name('account');
     });
-    
+
     Route::prefix('/logout')->group(function () {
         Route::post('', [AuthController::class, 'logout'])->name('logout');
     });
-    
+
     Route::prefix('/home')->group(function () {
         Route::get('', [HomeController::class, 'homePage'])->name('home');
     });
-    
+
     Route::prefix('/detail-item')->group(function () {
         Route::get('', [HomeController::class, 'detailItem']);
         Route::post('', [HomeController::class, 'submitPesanan']);
     });
-    
+
     Route::prefix('/payment-status')->group(function () {
         Route::get('', [HomeController::class, 'paymentStatus'])->name('payment-status');
     });
@@ -74,5 +79,5 @@ Route::middleware([NotYetLoginMiddleware::class])->group(function () {
     Route::prefix('/payment')->group(function () {
         Route::get('', [HomeController::class, 'paymentToMidtrans']);
     });
-    
+
 });

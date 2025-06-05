@@ -16,7 +16,7 @@ class HomeController extends Controller
 {
     public function homePage(Request $request)
     {
-        $barang = BarangJualan::select()->with('stock')->paginate(6);
+        $barang = BarangJualan::select()->with('stock')->paginate(8);
         return response(
             view("toko.home")
                 ->with("barang", $barang)
@@ -139,7 +139,7 @@ class HomeController extends Controller
         $jumlahPembelian = $orderedGoods['quantity'];
 
         $transaksiPenjualanModel = DB::transaction(function () use ($userModel, $stokBarangModel, $jumlahPembelian, $totalHarga, $barangJualanModel, $jumlahAkhir) {
-            
+
             /**
              * @var \App\Models\User
              */

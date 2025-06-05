@@ -4,156 +4,185 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-        integrity="sha256-PI8n5gCcz9cQqQXm3PEtDuPG8qx9oFsFctPg0S5zb8g=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <title>{{$title ?? "Status Pembayaran"}}</title>
     <style>
-        .bs-max-card-height-20rem {
-            max-height: 20rem;
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --text-color: #333;
+            --muted-color: #6c757d;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            background-color: #f5f5f5;
+        }
+
+        .navbar {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            background-color: white !important;
+        }
+
+        .transaction-card {
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            background-color: white;
+            overflow: hidden;
+        }
+
+        .status-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table thead th {
+            background-color: var(--primary-color);
+            color: white;
+            font-weight: 500;
+        }
+
+        .logo-text {
+            font-family: 'Arial Rounded MT Bold', 'Arial', sans-serif;
+            font-weight: bold;
+            color: var(--secondary-color);
+        }
+
+        .price-value {
+            font-weight: 600;
+            color: var(--secondary-color);
         }
     </style>
 </head>
 
 <body>
-    <header class="py-3 mb-4 border-bottom shadow sticky-top bg-body">
-        <div class="container d-flex flex-wrap justify-content-between">
-            <a href="#"
-                class="d-flex align-items-center mb-3 mb-lg-0 me-lg-auto link-body-emphasis text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" class="bi bi-cart4"
-                    viewBox="0 0 16 16">
-                    <path
-                        d="M0 2.5A.5.5 0 0 1 .5 2H2a.5.5 0 0 1 .485.379L2.89 4H14.5a.5.5 0 0 1 .485.621l-1.5 6A.5.5 0 0 1 13 11H4a.5.5 0 0 1-.485-.379L1.61 3H.5a.5.5 0 0 1-.5-.5M3.14 5l.5 2H5V5zM6 5v2h2V5zm3 0v2h2V5zm3 0v2h1.36l.5-2zm1.11 3H12v2h.61zM11 8H9v2h2zM8 8H6v2h2zM5 8H3.89l.5 2H5zm0 5a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0m9-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2m-2 1a2 2 0 1 1 4 0 2 2 0 0 1-4 0" />
-                </svg> <span class="ms-2 fs-3">{{ $shopName ?? "Lapo Marpaigon" }}</span>
-            </a>
-            <div class="col-12 col-lg-auto" role="search">
-                <form action="/home">
-                    <button type="submit" class="btn btn-outline-dark w-100">Home</button>
-                </form>
+    <!-- Header Navigation -->
+    <header class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-3">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <button onclick="window.history.back()" class="btn btn-outline-primary">
+                    <i class="bi bi-arrow-left me-1"></i> Kembali
+                </button>
+            </div>
+
+            <div class="mx-auto">
+                <h1 class="mb-0 fs-4 fw-bold logo-text">{{ $shopName ?? "Lapo Marpaigon" }}</h1>
             </div>
         </div>
     </header>
+    <!-- End of Header Navigation -->
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-10 offset-lg-1">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Nomor Transaction</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Id Barang</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Barang</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Nama Pembeli</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Jumlah Pembelian</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Status</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Total Harga</div>
-                            </th>
-                            <th scope="col">
-                                <div class="d-flex justify-content-center">Opsi</div>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @if (isset($transaction))
+    <!-- Main Content -->
+    <main class="container my-5">
+        <div class="transaction-card p-4 mb-4">
+            <h2 class="text-center mb-4">
+                <i class="bi bi-receipt me-2"></i>Status Pembayaran
+            </h2>
 
-                            <div>{{ $transaction->onEachSide(3)->links() }}</div>
+            @if (isset($transaction))
+                <div class="mb-3">
+                    {{ $transaction->onEachSide(3)->links() }}
+                </div>
 
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">No. Transaksi</th>
+                                <th scope="col" class="text-center">Barang</th>
+                                <th scope="col" class="text-center">Pembeli</th>
+                                <th scope="col" class="text-center">Jumlah</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">Total Harga</th>
+                                <th scope="col" class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
                             @foreach ($transaction as $transactionPerItem)
                                 <tr>
-                                    <th scope="col">
-                                        <div class="d-flex justify-content-center">
-                                            {{ $transactionPerItem->id }}
-                                        </div>
-                                    </th>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{ $transactionPerItem->id_barang_jualan }}
-                                        </div>
+                                    <td class="text-center">{{ $transactionPerItem->id }}</td>
+                                    <td class="text-center">
+                                        {{ $transactionPerItem->barangDibeli->nama_barang ?? "Nama Barang" }}
+                                        <div class="small text-muted">ID: {{ $transactionPerItem->id_barang_jualan }}</div>
                                     </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{$transactionPerItem->barangDibeli->nama_barang ?? "Nama Barang" }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{ $buyersName ?? "Nama Pembeli" }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{ $transactionPerItem->jumlah_pembelian }}
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            @if ($transactionPerItem->status === 'dibatalkan')
-                                                <button disabled="disabled" class="btn btn-outline-danger">
-                                                    {{ $transactionPerItem->status }}
-                                                </button>
-
-                                            @elseif ($transactionPerItem->status === 'success')
-                                                <button disabled="disabled" class="btn btn-success">
-                                                    {{ $transactionPerItem->status }}
-                                                </button>
-                                            @else
-                                                <button disabled="disabled" class="btn btn-warning">
-                                                    {{ $transactionPerItem->status }}
-                                                </button>
-                                            @endif
-
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="d-flex justify-content-center">
-                                            {{ "Rp" . $transactionPerItem->total_harga }}
-                                        </div>
-                                    </td>
-                                    <td class="d-flex justify-content-center">
-                                        @if ($transactionPerItem->status === 'pending')
-                                            <form action="{{ url()->to('payment') }}" method="get" class="mb-2 mb-lg-0 me-1">
-                                                @csrf
-                                                <input type="hidden" name="id-transaksi-penjualan"
-                                                    value="{{ $transactionPerItem->id }}">
-                                                <button type="submit" class="btn btn-outline-dark mb-2 mb-lg-0"
-                                                    id="pay-button">Bayar</button>
-                                            </form>
-
-                                            <form action="{{ url()->to('cancel-payment') }}" method="post" class="mb-2 mb-lg-0">
-                                                @csrf
-                                                <input type="hidden" name="id-transaksi-penjualan"
-                                                    value="{{ $transactionPerItem->id }}">
-                                                <button type="submit" class="btn btn-outline-dark opacity-50">Batal</button>
-                                            </form>
+                                    <td class="text-center">{{ $buyersName ?? "Nama Pembeli" }}</td>
+                                    <td class="text-center">{{ $transactionPerItem->jumlah_pembelian }}</td>
+                                    <td class="text-center">
+                                        @if ($transactionPerItem->status === 'dibatalkan')
+                                            <span class="badge status-cancelled rounded-pill p-2">
+                                                <i class="bi bi-x-circle me-1"></i> Dibatalkan
+                                            </span>
+                                        @elseif ($transactionPerItem->status === 'success')
+                                            <span class="badge status-success rounded-pill p-2">
+                                                <i class="bi bi-check-circle me-1"></i> Sukses
+                                            </span>
                                         @else
-                                            <button type="submit" class="btn btn-outline-dark opacity-50"
-                                                placeholder="tidak bisa diklik" disabled>Tidak Ada</button>
-
+                                            <span class="badge status-pending rounded-pill p-2">
+                                                <i class="bi bi-hourglass-split me-1"></i> Pending
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center price-value">
+                                        Rp{{ number_format($transactionPerItem->total_harga, 0, ',', '.') }}
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($transactionPerItem->status === 'pending')
+                                            <div class="d-flex justify-content-center gap-2">
+                                                <form action="{{ url()->to('payment') }}" method="get">
+                                                    @csrf
+                                                    <input type="hidden" name="id-transaksi-penjualan" value="{{ $transactionPerItem->id }}">
+                                                    <button type="submit" class="btn btn-sm btn-primary">
+                                                        <i class="bi bi-credit-card me-1"></i> Bayar
+                                                    </button>
+                                                </form>
+                                                <form action="{{ url()->to('cancel-payment') }}" method="post">
+                                                    @csrf
+                                                    <input type="hidden" name="id-transaksi-penjualan" value="{{ $transactionPerItem->id }}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                        <i class="bi bi-x-circle me-1"></i> Batal
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        @else
+                                            <span class="text-muted small">Tidak ada aksi</span>
                                         @endif
                                     </td>
                                 </tr>
                             @endforeach
-                        @endif
-                    </tbody>
-                </table>
-            </div>
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="text-center py-4">
+                    <i class="bi bi-receipt-cutoff display-4 text-muted mb-3"></i>
+                    <h4 class="text-muted">Tidak ada transaksi</h4>
+                    <p class="text-muted">Belum ada riwayat transaksi yang tersedia</p>
+                </div>
+            @endif
         </div>
-    </div>
+    </main>
+    <!-- End of Main Content -->
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
-        integrity="sha256-3gQJhtmj7YnV1fmtbVcnAV6eI4ws0Tr48bVZCThtCGQ=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

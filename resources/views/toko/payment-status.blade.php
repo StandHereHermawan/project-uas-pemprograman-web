@@ -98,6 +98,7 @@
                 <i class="bi bi-receipt me-2"></i>Status Pembayaran
             </h2>
 
+
             @if (isset($transaction))
                 <div class="mb-3">
                     {{ $transaction->onEachSide(3)->links() }}
@@ -123,6 +124,11 @@
                                     <td class="text-center">
                                         {{ $transactionPerItem->barangDibeli->nama_barang ?? "Nama Barang" }}
                                         <div class="small text-muted">ID: {{ $transactionPerItem->id_barang_jualan }}</div>
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-center">
+                                            {{ $transactionPerItem->barangDibeli->seller->name }}
+                                        </div>
                                     </td>
                                     <td class="text-center">{{ $buyersName ?? "Nama Pembeli" }}</td>
                                     <td class="text-center">{{ $transactionPerItem->jumlah_pembelian }}</td>

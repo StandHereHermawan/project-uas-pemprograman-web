@@ -144,6 +144,7 @@
     <!-- Main Content -->
     <main class="container my-5">
         <div class="row">
+
             <div class="col-lg-6 mb-4 mb-lg-0">
                 <div class="product-image rounded-3 mb-4">
                     [Gambar Produk]
@@ -153,7 +154,6 @@
             <div class="col-lg-6">
                 <div class="product-card p-4 h-100">
                     <h2 class="mb-4">{{ $namaBarang ?? 'Nama Produk' }}</h2>
-
                     <div class="mb-4">
                         <div class="info-label">Harga</div>
                         <div class="price-tag">

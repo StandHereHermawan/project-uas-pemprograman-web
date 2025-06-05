@@ -206,18 +206,30 @@
                 <div class="d-flex justify-content-center mb-3 mb-lg-0 me-3">
                     <button class="btn btn-outline-dark" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor"
-                            class="bi bi-card-list me-2" viewBox="0 0 16 16">
-                            <path
-                                d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
-                            <path
-                                d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
-                        </svg>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor"
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor"
+                        class="bi bi-card-list me-2" viewBox="0 0 16 16">
+                        <path
+                        d="M14.5 3a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-13a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5zm-13-1A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h13a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2z" />
+                        <path
+                        d="M5 8a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7A.5.5 0 0 1 5 8m0-2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m0 5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 0 1h-7a.5.5 0 0 1-.5-.5m-1-5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0M4 8a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0m0 2.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0" />
+                    </svg> -->
+                        <div class="d-flex">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor"
+                                class="bi bi-list" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5" />
+                            </svg>
+                            <div class="ms-1">
+                                <b>
+                                    Menu
+                                </b>
+                            </div>
+                        </div>
+                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="27" height="27" fill="currentColor"
                             class="bi bi-three-dots" viewBox="0 0 16 16">
                             <path
                                 d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3" />
-                        </svg>
+                        </svg> -->
                     </button>
                 </div>
             </div>
@@ -273,6 +285,7 @@
 
                 @endif
 
+                @if ($userRole === "CUSTOMER")
                 <div class="accordion-item">
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
@@ -290,9 +303,11 @@
                         </div>
                     </div>
                 </div>
+                @endif
 
                 <!-- User Section -->
                 <div class="accordion-item border-0 mb-3">
+
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
@@ -400,18 +415,29 @@
                                     <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
                                 </svg>
                                 <div class="card-body">
+
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <h5 class="card-title mb-0">{{ $item->getNamaBarang() }}</h5>
                                         <span
                                             class="price">Rp{{ number_format($item->getHarga(), 0, ',', '.') }}</span>
                                     </div>
                                     <p class="stock mb-3">Stok: {{ $item->stock->jumlah ?? '0' }}</p>
-                                    <form action="/detail-item" method="get">
-                                        <input type="hidden" name="id" value="{{ $item->getId() }}">
-                                        <button type="submit" class="btn btn-primary w-100">
-                                            <i class="bi bi-cart-plus me-1"></i> Beli
-                                        </button>
-                                    </form>
+                                    @if ($userRole === "CUSTOMER")
+                                        <div>
+                                            <div class="opacity-50">{{ $item->seller->name ?? "0" }}</div>
+                                            <div class="opacity-50">
+                                                <b>
+                                                    Stok : {{ $item->stock->jumlah ?? "0" }}
+                                                </b>
+                                            </div>
+                                        </div>
+                                        <form action="/detail-item" method="get">
+                                            <input type="hidden" name="id" value="{{ $item->getId() }}">
+                                            <button type="submit" class="btn btn-primary w-100">
+                                                <i class="bi bi-cart-plus me-1"></i> Beli
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </div>
                         </div>

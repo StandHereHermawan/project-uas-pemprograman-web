@@ -22,36 +22,24 @@ class BarangJualan extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'user_id',
+        'seller_id',
         'nama_barang',
         'harga'
     ];
 
     public function getId()
     {
-        if ($this->id !== null) {
-            return $this->id;
-        } else {
-            return null;
-        }
+        return $this->id;
     }
 
     public function getNamaBarang()
     {
-        if ($this->nama_barang !== null) {
-            return $this->nama_barang;
-        } else {
-            return null;
-        }
+        return $this->nama_barang;
     }
 
     public function getHarga()
     {
-        if ($this->harga !== null) {
-            return $this->harga;
-        } else {
-            return null;
-        }
+        return $this->harga;
     }
 
     public function stock()
@@ -61,6 +49,23 @@ class BarangJualan extends Model
 
     public function seller()
     {
-        return $this->hasOne(User::class, 'id', 'user_id');
+        return $this->hasOne(User::class, 'id', 'seller_id');
+    }
+
+    public function sells()
+    {
+        return $this->hasMany(TransaksiPenjualan::class, 'id_barang_jualan', 'id');
+    }
+
+    public function peopleWhoBuy()
+    {
+        return $this->hasManyThrough(
+            User::class,
+            TransaksiPenjualan::class,
+            'buyer_id',
+            'id',
+            'seller_id',
+            'id',
+        );
     }
 }

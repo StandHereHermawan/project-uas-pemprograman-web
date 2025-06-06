@@ -160,9 +160,6 @@
                         </div>
 
                         <div class="text-center">
-                            <div>
-                                Sistem Informasi Peminjaman Ruangan
-                            </div>
                             <!-- role error message -->
                             @if ($sellerRoleIsNotYetAvailableInDatabase === true)
                                 <div class="text-danger text-center">

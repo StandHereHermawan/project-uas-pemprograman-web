@@ -79,6 +79,11 @@ Route::middleware([NotYetLoginMiddleware::class])->group(function () {
         Route::post('', [HomeController::class, 'submitAddItemForm']);
     });
 
+    Route::prefix('/edit-products')->group(function () {
+        Route::get('', [HomeController::class, 'editItemForm'])->name('edit-products');
+        Route::post('', [HomeController::class, 'submitEditItemForm']);
+    });
+
     Route::prefix('/payment-status')->group(function () {
         Route::get('', [HomeController::class, 'paymentStatus'])->name('payment-status');
     });

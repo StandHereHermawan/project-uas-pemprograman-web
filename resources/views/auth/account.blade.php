@@ -115,6 +115,7 @@
                             <div class="info-label">Email Terdaftar</div>
                             <div class="info-value">{{ $email ?? 'Email not available' }}</div>
                         </div>
+                        <!-- end of informasi email -->
 
                         <!-- Password (opsional) -->
                         <!-- <div class="account-info-item list-group-item">
@@ -123,34 +124,32 @@
                                 <i class="bi bi-key me-1"></i>Ganti Password
                             </a>
                         </div> -->
-                    </div>
-                    <!-- end of informasi email -->
-                     <!-- informasi role -->
-                      <div class="list-group-item list-group-item-action">
+                        <!-- informasi role -->
+                        <div class="account-info-item list-group-item list-group-item-action">
 
-                        <div>
-                            <div class="d-flex w-100 justify-content-between">
-                                <h5 class="mb-1">Role</h5>
-                                <!-- <small class="text-body-secondary">Lorem_ipsum.</small> -->
+                            <div>
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h5 class="mb-1 info-label">Role</h5>
+                                    <!-- <small class="text-body-secondary">Lorem_ipsum.</small> -->
+                                </div>
+                                <p class="mb-1">{{ $role ?? "Role not available" }}</p>
+
                             </div>
-                            <p class="mb-1">{{ $role ?? "Role not available" }}</p>
 
+                            <div class="d-flex justify-content-between">
+
+                            </div>
                         </div>
-
-                        <div class="d-flex justify-content-between">
-
-                        </div>
+                        <!-- end of informasi role -->
                     </div>
-                    <!-- end of informasi role -->
                 </div>
             </div>
-        </div>
     </main>
     <!-- End of Main Content -->
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        document.getElementById('backButton').addEventListener('click', function() {
+        document.getElementById('backButton').addEventListener('click', function () {
             if (window.history.length > 1) {
                 window.history.back();
             } else {

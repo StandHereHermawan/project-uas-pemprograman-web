@@ -85,8 +85,10 @@
 
                         <!-- role input  -->
                         <div class="form-floating mb-3">
-                            <input class="form-control" name="role" id="role" type="text" placeholder="role"
-                                value="{{ $role ?? "" }}" autocomplete="true" required/>
+                            <input class="form-control" id="role" type="text" placeholder="role"
+                                value="{{ $role ?? "" }}" autocomplete="true" disabled />
+                            <input name="role" id="role" type="hidden" placeholder="role"
+                                value="{{ $role ?? "" }}" autocomplete="true" required />
                             <label for="role">Role</label>
 
                             <!-- password error message -->

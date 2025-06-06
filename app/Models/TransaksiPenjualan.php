@@ -6,7 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class TransaksiPenjualan extends Model
 {
-    protected $table = "uas_transaksi_penjualans";
+    const TABLE_NAME = "uas_transaksi_penjualans";
+
+    protected $table = TransaksiPenjualan::TABLE_NAME;
     protected $primaryKey = "id";
     protected $keyType = "int";
     public $incrementing = true;
@@ -18,7 +20,8 @@ class TransaksiPenjualan extends Model
      * @var list<string>
      */
     protected $fillable = [
-        'user_id',
+        'buyer_id',
+        'seller_id',
         'id_barang_jualan',
         'jumlah_pembelian',
         'status',
@@ -27,6 +30,28 @@ class TransaksiPenjualan extends Model
 
     public function barangDibeli()
     {
-        return $this->hasOne(BarangJualan::class, 'id', 'id_barang_jualan');
+        return $this->hasOne(
+            BarangJualan::class,
+            'id',
+            'id_barang_jualan'
+        );
+    }
+
+    public function buyer()
+    {
+        return $this->hasOne(
+            User::class,
+            'id',
+            'buyer_id'
+        );
+    }
+
+    public function seller()
+    {
+        return $this->hasOne(
+            User::class,
+            'id',
+            'seller_id'
+        );
     }
 }

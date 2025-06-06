@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id()->autoIncrement()->nullable(false)->primary()->unsigned();
             $table->string("nama_barang")->nullable(false);
             $table->unsignedBigInteger("harga")->nullable(false);
-            $table->unsignedBigInteger("user_id")->nullable(false);
-            $table->foreign("user_id")->references("id")->on("uas_users")->cascadeOnUpdate()->cascadeOnDelete();
+            $table->unsignedBigInteger("seller_id")->nullable(false);
+            $table->foreign("seller_id")->references("id")->on("uas_users")->cascadeOnUpdate()->cascadeOnDelete();
         });
     }
 

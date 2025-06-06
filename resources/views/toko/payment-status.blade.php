@@ -110,6 +110,7 @@
                             <tr>
                                 <th scope="col" class="text-center">No. Transaksi</th>
                                 <th scope="col" class="text-center">Barang</th>
+                                <th scope="col" class="text-center">Penjual</th>
                                 <th scope="col" class="text-center">Pembeli</th>
                                 <th scope="col" class="text-center">Jumlah</th>
                                 <th scope="col" class="text-center">Status</th>

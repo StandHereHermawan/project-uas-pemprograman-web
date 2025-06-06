@@ -18,8 +18,8 @@ class HomeController extends Controller
     {
         $email = $request->cookie('X-LOGIN-TOKEN');
 
-
         $barang = null;
+        $transaction = null;
 
         $userModel = User::select()
             ->where('email', '=', $email)
@@ -34,15 +34,21 @@ class HomeController extends Controller
 
         if ($userModel->hasRole()->first()->role === "SELLER") {
             $barang = BarangJualan::select()
-                ->where('user_id', '=', $userModel->getId())
+                ->where('seller_id', '=', $userModel->getId())
                 ->with('stock')
-                ->with('seller')
-                ->paginate(8);
+                ->paginate(4, ['*'], 'itemPage')->appends($request->query());
+
+            $transaction = TransaksiPenjualan::select()
+                ->where('seller_id', '=', $userModel->getId())
+                ->where('status', '=', 'success')
+                ->orWhere('status', '=', 'pending')
+                ->paginate(4, ['*'], 'salesPage')->appends($request->query());
         }
 
         return response(
             view("toko.home")
                 ->with("barang", $barang)
+                ->with("transaction", $transaction)
                 ->with('userRole', $userModel->hasRole()->first()->role)
         );
     }
@@ -60,7 +66,7 @@ class HomeController extends Controller
         /**
          * @var \App\Models\TransaksiPenjualan
          */
-        $transaksiPenjualanModel = TransaksiPenjualan::where('user_id', '=', $userModel->id)
+        $transaksiPenjualanModel = TransaksiPenjualan::where('buyer_id', '=', $userModel->id)
             ->with('barangDibeli')
             ->paginate(6);
 
@@ -131,7 +137,7 @@ class HomeController extends Controller
         DB::beginTransaction();
 
         $barangJualanModel = BarangJualan::create([
-            "user_id" => $userModel->getId(),
+            "seller_id" => $userModel->getId(),
             "nama_barang" => $acceptedInput['goods-name'],
             "harga" => $acceptedInput['harga']
         ]);
@@ -142,6 +148,93 @@ class HomeController extends Controller
                 "jumlah" => $acceptedInput['stok-barang']
             ]
         );
+        DB::commit();
+
+        return redirect()->route('home');
+    }
+
+    public function editItemForm(Request $request)
+    {
+        $email = $request->cookie('X-LOGIN-TOKEN');
+
+        $id = $request->only([
+            'id'
+        ])['id'];
+
+        $barangJualanModel = BarangJualan::select()
+            ->where('id', '=', $id)
+            ->first();
+
+        $stockBarangJualanModel = StokBarang::select()
+            ->where('id_barang_jualan', '=', $id)
+            ->first();
+
+        return view('toko.edit-item')
+            ->with('oldStock', $stockBarangJualanModel)
+            ->with('oldGoodsData', $barangJualanModel)
+            ->with('idBarang', $id);
+    }
+
+    public function submitEditItemForm(Request $request)
+    {
+        $email = $request->cookie('X-LOGIN-TOKEN');
+
+        $orderedGoods = $request->only([
+            'goods-id',
+            'goods-name',
+            'harga',
+            'stok-barang'
+        ]);
+
+        /**
+         * @var \Illuminate\Validation\Validator
+         */
+        $validator = Validator::make($orderedGoods, [
+            "goods-id" => ['required'],
+            "goods-name" => ['min:4'],
+            'harga' => ['numeric', 'min:1000'],
+            'stok-barang' => ['numeric', 'min:1']
+        ]);
+
+        if ($validator->fails()) {
+            # code...
+            return back()->withErrors($validator->getMessageBag());
+        }
+
+        $userModel = User::select()
+            ->where('email', '=', $email)
+            ->first();
+
+        $acceptedInput = $validator->validated();
+
+        DB::beginTransaction();
+
+        $barangJualanModel = BarangJualan::select()
+            ->where('id', '=', $acceptedInput['goods-id'])
+            ->first();
+
+        $stokBarangModel = StokBarang::select()
+            ->where('id_barang_jualan', '=', $acceptedInput['goods-id'])
+            ->first();
+
+        if ($barangJualanModel->getNamaBarang() !== $acceptedInput['goods-name']) {
+            $barangJualanModel->update([
+                "nama_barang" => $acceptedInput['goods-name'],
+            ]);
+        }
+
+        if ($barangJualanModel->getHarga() !== $acceptedInput['harga']) {
+            $barangJualanModel->update([
+                "harga" => $acceptedInput['harga'],
+            ]);
+        }
+
+        if ($stokBarangModel->jumlah !== $acceptedInput['stok-barang']) {
+            $stokBarangModel->update([
+                "jumlah" => $acceptedInput['stok-barang'],
+            ]);
+        }
+
         DB::commit();
 
         return redirect()->route('home');
@@ -223,7 +316,8 @@ class HomeController extends Controller
              * @var \App\Models\User
              */
             $transaksiPenjualanModel = TransaksiPenjualan::create([
-                "user_id" => $userModel->id,
+                "buyer_id" => $userModel->id,
+                "seller_id" => $barangJualanModel->seller->first()->id,
                 "id_barang_jualan" => $barangJualanModel->id,
                 "jumlah_pembelian" => $jumlahPembelian,
                 "total_harga" => $totalHarga,
@@ -234,7 +328,8 @@ class HomeController extends Controller
             return $transaksiPenjualanModel;
         });
 
-        return redirect()->route('payment-status')->with('user_id', $transaksiPenjualanModel->user_id);
+        // return redirect()->route('payment-status')->with('user_id', $transaksiPenjualanModel->user_id);
+        return redirect()->route('payment-status');
     }
 
     public function cancelPayment(Request $request)

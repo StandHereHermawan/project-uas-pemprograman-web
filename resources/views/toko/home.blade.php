@@ -50,6 +50,21 @@
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
+        .status-success {
+            background-color: #d1e7dd;
+            color: #0f5132;
+        }
+
+        .status-pending {
+            background-color: #fff3cd;
+            color: #664d03;
+        }
+
+        .status-cancelled {
+            background-color: #f8d7da;
+            color: #842029;
+        }
+
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
@@ -251,14 +266,13 @@
 
         <div class="offcanvas-body">
             <p>{{$offCanvaHeader ?? "Lapo Marpaigon dalam bahasa batak artinya toko makanan."}}</p>
-            <!-- first accordion -->
+            <!-- Menu Accordion -->
             <div class="accordion mb-3" id="accordionExample1">
                 @if ($userRole === "SELLER")
 
-                    <div class="accordion-item">
+                    <div class="accordion-item border-0">
                         <h2 class="accordion-header">
-
-                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                            <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
                                     class="bi bi-box2-heart me-2" viewBox="0 0 16 16">
@@ -266,17 +280,28 @@
                                     <path
                                         d="M3.75 0a1 1 0 0 0-.8.4L.1 4.2a.5.5 0 0 0-.1.3V15a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1V4.5a.5.5 0 0 0-.1-.3L13.05.4a1 1 0 0 0-.8-.4zm0 1H7.5v3h-6zM8.5 4V1h3.75l2.25 3zM15 5v10H1V5z" />
                                 </svg>
-                                Produk
+                                <!-- <i class="bi bi-box2-heart me-3"></i> -->
+                                <div>
+                                    Produk
+                                </div>
                             </button>
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
+                            <div class="accordion-body px-4 py-3">
                                 <form action="{{ url()->route('add-product') }}" method="get"
                                     class="d-flex justify-content-center mb-3 mb-lg-0">
-                                    <button class="btn btn-outline-dark w-100" type="submit" data-bs-toggle="offcanvas"
-                                        data-bs-target="#offcanvasScrolling" aria-controls="offcanvasScrolling">
-                                        Tambah Produk
-                                        </svg>
+                                    <button class="d-flex btn btn-outline-dark py-2 px-3 w-100 text-start" type="submit"
+                                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasScrolling"
+                                        aria-controls="offcanvasScrolling">
+                                        <!-- <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                                                                                                                                                class="bi bi-plus-lg" viewBox="0 0 16 16">
+                                                                                                                                                                <path fill-rule="evenodd"
+                                                                                                                                                                    d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
+                                                                                                                                                            </svg> -->
+                                        <i class="bi bi-plus-lg me-2"></i>
+                                        <div>
+                                            Tambah Produk
+                                        </div>
                                     </button>
                                 </form>
                             </div>
@@ -286,50 +311,67 @@
                 @endif
 
                 @if ($userRole === "CUSTOMER")
-                <div class="accordion-item">
-                    <h2 class="accordion-header">
-                        <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#collapseShopping" aria-expanded="false" aria-controls="collapseShopping">
-                            <i class="bi bi-cart3 me-3"></i>Belanja
-                        </button>
-                    </h2>
-                    <div id="collapseShopping" class="accordion-collapse collapse" data-bs-parent="#mainMenuAccordion">
-                        <div class="accordion-body px-4 py-3">
-                            <form action="{{ url()->to('payment-status') }}" method="get" class="mb-2">
-                                <button class="btn btn-outline-dark w-100 py-2 px-3 text-start" type="submit">
-                                    <i class="bi bi-clock-history me-2"></i>Histori Belanja
-                                </button>
-                            </form>
+
+                    <div class="accordion-item border-0">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#collapseShopping" aria-expanded="false" aria-controls="collapseShopping">
+                                <i class="bi bi-cart3 me-3"></i>Belanja
+                            </button>
+                        </h2>
+                        <div id="collapseShopping" class="accordion-collapse collapse" data-bs-parent="#mainMenuAccordion">
+                            <div class="accordion-body px-4 py-3">
+                                <form action="{{ url()->to('payment-status') }}" method="get" class="mb-2">
+                                    <button class="btn btn-outline-dark w-100 py-2 px-3 text-start" type="submit">
+                                        <i class="bi bi-clock-history me-2"></i>Histori Belanja
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
+
                 @endif
 
                 <!-- User Section -->
                 <div class="accordion-item border-0 mb-3">
-
                     <h2 class="accordion-header">
                         <button class="accordion-button collapsed px-4 py-3" type="button" data-bs-toggle="collapse"
                             data-bs-target="#collapseUser" aria-expanded="false" aria-controls="collapseUser">
-                            <i class="bi bi-person me-3"></i>Akun Pengguna
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                                class="bi bi-person me-2" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                            </svg>
+                            <!-- <i class="bi bi-person me-3"></i> -->
+                            <div>
+                                Akun Pengguna
+                            </div>
                         </button>
                     </h2>
                     <div id="collapseUser" class="accordion-collapse collapse" data-bs-parent="#mainMenuAccordion">
                         <div class="accordion-body px-4 py-3">
                             <form action="{{ url()->to('account') }}" method="get" class="mb-2">
-                                <button class="btn btn-outline-dark w-100 py-2 px-3 text-start" type="submit">
-                                    <i class="bi bi-person-circle me-2"></i>Akun Pribadi
+                                <button class="d-flex btn btn-outline-dark w-100 py-2 px-3 text-start" type="submit">
+                                    <i class="bi bi-person-circle me-2"></i>
+                                    <div>
+                                        Akun Pribadi
+                                    </div>
                                 </button>
                             </form>
                             <form action="{{ url()->route('logout') }}" method="post" class="mb-0">
                                 @csrf
-                                <button class="btn btn-outline-danger w-100 py-2 px-3 text-start" type="submit">
-                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                <button class="d-flex btn btn-outline-danger w-100 py-2 px-3 text-start" type="submit">
+                                    <i class="bi bi-box-arrow-right me-2"></i>
+                                    <div>
+                                        Logout
+                                    </div>
                                 </button>
                             </form>
                         </div>
                     </div>
                 </div>
+                <!-- end of User Section -->
+
             </div>
             <!-- End of Menu Accordion -->
         </div>
@@ -338,68 +380,78 @@
 
     <!-- Main Content -->
     <main class="container my-5">
-        <!-- Hero Carousel -->
-        <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
-            <div class="carousel-indicators">
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
-                <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+
+        @if ($userRole === "CUSTOMER")
+            <!-- Hero Carousel -->
+            <div id="heroCarousel" class="carousel slide hero-carousel" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1"></button>
+                    <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2"></button>
+                </div>
+
+                <div class="carousel-inner">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active">
+                        <img src="https://thumb.viva.id/vivapurwasuka/1265x711/2025/01/12/67833b3fd2462-gehu-pedas_purwasuka.jpg"
+                            class="d-block w-100 carousel-img" alt="Promo Spesial">
+                        <div class="carousel-caption text-start">
+                            <h5>Promo Spesial Hari Ini</h5>
+                            <p>Dapatkan diskon hingga 30% untuk produk pilihan</p>
+                            <a href="#" class="btn btn-primary btn-sm">Lihat Promo</a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 2 -->
+                    <div class="carousel-item">
+                        <img src="https://thumb.viva.id/vivabandung/1265x711/2025/02/21/67b84865b58de-batagor-khas-bandung_bandung.jpg"
+                            class="d-block w-100 carousel-img" alt="Produk Terbaru">
+                        <div class="carousel-caption">
+                            <h5>Produk Terbaru</h5>
+                            <p>Temukan koleksi terbaru kami yang segar dan lezat</p>
+                            <a href="#" class="btn btn-primary btn-sm">Jelajahi</a>
+                        </div>
+                    </div>
+
+                    <!-- Slide 3 -->
+                    <div class="carousel-item">
+                        <img src="https://mediapijar.com/wp-content/uploads/2017/11/Cireng-Rujak-at-Armor-Kopi-Bandung-by-Myfunfoodiary-03-fb.jpg"
+                            class="d-block w-100 carousel-img" alt="Pengiriman Cepat">
+                        <div class="carousel-caption text-end">
+                            <h5>Pengiriman Kilat</h5>
+                            <p>Pesanan Anda akan sampai dalam waktu 2 jam</p>
+                            <a href="#" class="btn btn-primary btn-sm">Pesan Sekarang</a>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
             </div>
+            <!-- End Hero Carousel -->
+        @endif
 
-            <div class="carousel-inner">
-                <!-- Slide 1 -->
-                <div class="carousel-item active">
-                    <img src="https://thumb.viva.id/vivapurwasuka/1265x711/2025/01/12/67833b3fd2462-gehu-pedas_purwasuka.jpg"
-                        class="d-block w-100 carousel-img" alt="Promo Spesial">
-                    <div class="carousel-caption text-start">
-                        <h5>Promo Spesial Hari Ini</h5>
-                        <p>Dapatkan diskon hingga 30% untuk produk pilihan</p>
-                        <a href="#" class="btn btn-primary btn-sm">Lihat Promo</a>
-                    </div>
-                </div>
-
-                <!-- Slide 2 -->
-                <div class="carousel-item">
-                    <img src="https://thumb.viva.id/vivabandung/1265x711/2025/02/21/67b84865b58de-batagor-khas-bandung_bandung.jpg"
-                        class="d-block w-100 carousel-img" alt="Produk Terbaru">
-                    <div class="carousel-caption">
-                        <h5>Produk Terbaru</h5>
-                        <p>Temukan koleksi terbaru kami yang segar dan lezat</p>
-                        <a href="#" class="btn btn-primary btn-sm">Jelajahi</a>
-                    </div>
-                </div>
-
-                <!-- Slide 3 -->
-                <div class="carousel-item">
-                    <img src="https://mediapijar.com/wp-content/uploads/2017/11/Cireng-Rujak-at-Armor-Kopi-Bandung-by-Myfunfoodiary-03-fb.jpg"
-                        class="d-block w-100 carousel-img" alt="Pengiriman Cepat">
-                    <div class="carousel-caption text-end">
-                        <h5>Pengiriman Kilat</h5>
-                        <p>Pesanan Anda akan sampai dalam waktu 2 jam</p>
-                        <a href="#" class="btn btn-primary btn-sm">Pesan Sekarang</a>
-                    </div>
-                </div>
+        @if ($userRole === "SELLER")
+            <div>
+                <h1 class="text-center display-1 opacity-50">
+                    SELLER HOME
+                </h1>
+                <hr />
             </div>
-
-            <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel"
-                data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel"
-                data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-        <!-- End Hero Carousel -->
+        @endif
 
         <!-- Bagian produk tetap sama -->
-        <div class="row">
+        <div class="row mb-5">
             @if (isset($barang) && is_iterable($barang))
                 <!-- Pagination -->
-                <div class="mb-4">
-                    {{ $barang->onEachSide(3)->links() }}
+                <div class="">
+                    {{ $barang->links() }}
                 </div>
 
                 <!-- Product Grid -->
@@ -418,18 +470,13 @@
 
                                     <div class="d-flex justify-content-between align-items-start mb-2">
                                         <h5 class="card-title mb-0">{{ $item->getNamaBarang() }}</h5>
-                                        <span
-                                            class="price">Rp{{ number_format($item->getHarga(), 0, ',', '.') }}</span>
+                                        <span class="price">Rp{{ number_format($item->getHarga(), 0, ',', '.') }}</span>
                                     </div>
-                                    <p class="stock mb-3">Stok: {{ $item->stock->jumlah ?? '0' }}</p>
+                                    <div class="stock">Stok: {{ $item->stock->jumlah ?? '0' }}</div>
+
                                     @if ($userRole === "CUSTOMER")
-                                        <div>
-                                            <div class="opacity-50">{{ $item->seller->name ?? "0" }}</div>
-                                            <div class="opacity-50">
-                                                <b>
-                                                    Stok : {{ $item->stock->jumlah ?? "0" }}
-                                                </b>
-                                            </div>
+                                        <div class="mb-3">
+                                            <div class="opacity-50">Penjual : {{ $item->seller->name ?? "0" }}</div>
                                         </div>
                                         <form action="/detail-item" method="get">
                                             <input type="hidden" name="id" value="{{ $item->getId() }}">
@@ -438,10 +485,28 @@
                                             </button>
                                         </form>
                                     @endif
+
+                                    @if ($userRole === "SELLER")
+
+                                        <!-- opsi seller modifikasi info barang -->
+                                        <div class="row">
+                                            <div class="">
+                                                <form action="{{ url()->to('edit-products') }}" method="get" class="mt-2">
+                                                    <input type="hidden" name="id" value="{{ $item->getId() }}">
+                                                    <button type="submit" class="btn btn-dark w-100">
+                                                        <i class="bi bi-pencil"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                        <!-- end of opsi seller modifikasi info barang -->
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
                 </div>
                 <!-- End of Product Grid -->
             @else
@@ -451,8 +516,107 @@
                     <h4 class="text-muted">Tidak ada produk tersedia</h4>
                     <p class="text-muted">Silakan kembali lagi nanti</p>
                 </div>
+                <!-- end of Empty State -->
             @endif
         </div>
+
+        <!-- Seller side sales list -->
+        @if ($userRole === "SELLER")
+            <div>
+                <h1 class="text-center display-1 opacity-50">
+                    PENJUALAN
+                </h1>
+                <hr />
+            </div>
+
+            @if (isset($transaction))
+                <div class="mb-3">
+                    {{ $transaction->links() }}
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col" class="text-center">No. Transaksi</th>
+                                <th scope="col" class="text-center">Barang</th>
+                                <th scope="col" class="text-center">Pembeli</th>
+                                <th scope="col" class="text-center">Jumlah</th>
+                                <th scope="col" class="text-center">Status</th>
+                                <th scope="col" class="text-center">Aksi</th>
+                                <th scope="col" class="text-center">Total Harga</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($transaction as $transactionPerItem)
+                                <tr>
+                                    <td class="text-center">{{ $transactionPerItem->id }}</td>
+                                    <td class="text-center">
+                                        {{ $transactionPerItem->barangDibeli->nama_barang ?? "Nama Barang" }}
+                                        <div class="small text-muted">ID: {{ $transactionPerItem->id_barang_jualan }}</div>
+                                    </td>
+                                    <td class="text-center">{{ $transactionPerItem->buyer->name ?? "Nama Pembeli" }}</td>
+                                    <td class="text-center">{{ $transactionPerItem->jumlah_pembelian }}</td>
+                                    <td class="text-center">
+                                        @if ($transactionPerItem->status === 'dibatalkan')
+                                            <span class="badge status-cancelled rounded-pill p-2">
+                                                <i class="bi bi-x-circle me-1"></i> Dibatalkan
+                                            </span>
+                                        @elseif ($transactionPerItem->status === 'success')
+                                            <span class="badge status-success rounded-pill p-2">
+                                                <i class="bi bi-check-circle me-1"></i> Sukses
+                                            </span>
+                                        @else
+                                            <span class="badge status-pending rounded-pill p-2">
+                                                <i class="bi bi-hourglass-split me-1"></i> Pending
+                                            </span>
+                                        @endif
+                                    </td>
+                                    <td class="text-center">
+                                        @if ($userRole === "CUSTOMER")
+
+                                            @if ($transactionPerItem->status === 'pending')
+                                                <div class="d-flex justify-content-center gap-2">
+                                                    <form action="{{ url()->to('payment') }}" method="get">
+                                                        @csrf
+                                                        <input type="hidden" name="id-transaksi-penjualan"
+                                                            value="{{ $transactionPerItem->id }}">
+                                                        <button type="submit" class="btn btn-sm btn-primary">
+                                                            <i class="bi bi-credit-card me-1"></i> Bayar
+                                                        </button>
+                                                    </form>
+                                                    <form action="{{ url()->to('cancel-payment') }}" method="post">
+                                                        @csrf
+                                                        <input type="hidden" name="id-transaksi-penjualan"
+                                                            value="{{ $transactionPerItem->id }}">
+                                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                                            <i class="bi bi-x-circle me-1"></i> Batal
+                                                        </button>
+                                                    </form>
+                                                </div>
+
+                                            @endif
+                                        @else
+                                            <span class="text-muted small">Tidak ada aksi</span>
+
+                                        @endif
+                                    </td>
+                                    <td class="text-center price-value">
+                                        Rp{{ number_format($transactionPerItem->total_harga, 0, ',', '.') }}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <div class="text-center py-4">
+                    <i class="bi bi-receipt-cutoff display-4 text-muted mb-3"></i>
+                    <h4 class="text-muted">Tidak ada transaksi</h4>
+                    <p class="text-muted">Belum ada riwayat transaksi yang tersedia</p>
+                </div>
+            @endif
+        @endif
     </main>
     <!-- End of Main Content -->
 

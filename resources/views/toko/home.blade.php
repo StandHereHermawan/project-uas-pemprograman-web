@@ -451,7 +451,7 @@
             @if (isset($barang) && is_iterable($barang))
                 <!-- Pagination -->
                 <div class="">
-                    {{ $barang->links() }}
+                    {{ $barang->links('vendor.pagination.bootstrap-5-custom') }}
                 </div>
 
                 <!-- Product Grid -->
@@ -531,7 +531,7 @@
 
             @if (isset($transaction))
                 <div class="mb-3">
-                    {{ $transaction->links() }}
+                    {{ $transaction->links('vendor.pagination.bootstrap-5-custom') }}
                 </div>
 
                 <div class="table-responsive">

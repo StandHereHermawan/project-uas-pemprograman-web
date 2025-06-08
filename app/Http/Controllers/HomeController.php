@@ -36,13 +36,15 @@ class HomeController extends Controller
             $barang = BarangJualan::select()
                 ->where('seller_id', '=', $userModel->getId())
                 ->with('stock')
-                ->paginate(4, ['*'], 'itemPage')->appends($request->query());
+                ->paginate(4, ['*'], 'itemPage')
+                ->appends($request->query());
 
             $transaction = TransaksiPenjualan::select()
                 ->where('seller_id', '=', $userModel->getId())
                 ->where('status', '=', 'success')
                 ->orWhere('status', '=', 'pending')
-                ->paginate(4, ['*'], 'salesPage')->appends($request->query());
+                ->paginate(4, ['*'], 'salesPage')
+                ->appends($request->query());
         }
 
         return response(
@@ -68,7 +70,7 @@ class HomeController extends Controller
          */
         $transaksiPenjualanModel = TransaksiPenjualan::where('buyer_id', '=', $userModel->id)
             ->with('barangDibeli')
-            ->paginate(6);
+            ->paginate(5);
 
         return response(
             view("toko.payment-status")

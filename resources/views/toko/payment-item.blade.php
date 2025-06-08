@@ -27,7 +27,8 @@
             </a>
             <div class="col-12 col-lg-auto" role="search">
                 <form action="/home">
-                    <button type="submit" class="btn btn-outline-dark w-100">Home</button>
+                    <button type="submit" class="btn btn-outline-dark w-100">
+                        <i class="bi bi-house-door me-1"></i>Home</button>
                 </form>
             </div>
         </div>
@@ -45,7 +46,7 @@
                 <h5>Total Harga</h5>
                 @if (isset($totalHarga))
                     <p class="opacity-75">{{ "Rp" . $totalHarga}}</p>
-                    @else
+                @else
                     <p class="opacity-75">{{ "Rp" . "0"}}</p>
                 @endif
                 <div class="d-flex">

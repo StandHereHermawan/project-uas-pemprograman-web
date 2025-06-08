@@ -87,6 +87,12 @@
             <div class="mx-auto">
                 <h1 class="mb-0 fs-4 fw-bold logo-text">{{ $shopName ?? "Lapo Marpaigon" }}</h1>
             </div>
+
+            <div class="col-12 col-lg-auto" role="search">
+                <form action="/home">
+                    <button type="submit" class="btn btn-outline-primary w-100"><i class="bi bi-house-door me-1"></i>Home</button>
+                </form>
+            </div>
         </div>
     </header>
     <!-- End of Header Navigation -->
@@ -101,7 +107,7 @@
 
             @if (isset($transaction))
                 <div class="mb-3">
-                    {{ $transaction->onEachSide(3)->links() }}
+                    {{ $transaction->onEachSide(3)->links('vendor.pagination.bootstrap-5-custom') }}
                 </div>
 
                 <div class="table-responsive">
@@ -156,14 +162,16 @@
                                             <div class="d-flex justify-content-center gap-2">
                                                 <form action="{{ url()->to('payment') }}" method="get">
                                                     @csrf
-                                                    <input type="hidden" name="id-transaksi-penjualan" value="{{ $transactionPerItem->id }}">
+                                                    <input type="hidden" name="id-transaksi-penjualan"
+                                                        value="{{ $transactionPerItem->id }}">
                                                     <button type="submit" class="btn btn-sm btn-primary">
                                                         <i class="bi bi-credit-card me-1"></i> Bayar
                                                     </button>
                                                 </form>
                                                 <form action="{{ url()->to('cancel-payment') }}" method="post">
                                                     @csrf
-                                                    <input type="hidden" name="id-transaksi-penjualan" value="{{ $transactionPerItem->id }}">
+                                                    <input type="hidden" name="id-transaksi-penjualan"
+                                                        value="{{ $transactionPerItem->id }}">
                                                     <button type="submit" class="btn btn-sm btn-outline-danger">
                                                         <i class="bi bi-x-circle me-1"></i> Batal
                                                     </button>

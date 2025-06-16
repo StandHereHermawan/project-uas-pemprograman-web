@@ -42,7 +42,6 @@ class HomeController extends Controller
             $transaction = TransaksiPenjualan::select()
                 ->where('seller_id', '=', $userModel->getId())
                 ->where('status', '=', 'success')
-                ->orWhere('status', '=', 'pending')
                 ->paginate(4, ['*'], 'salesPage')
                 ->appends($request->query());
         }
@@ -50,7 +49,7 @@ class HomeController extends Controller
         return response(
             view("toko.home")
                 ->with("barang", $barang)
-                ->with("transaction", $transaction)
+                // ->with("transaction", $transaction)
                 ->with('userRole', $userModel->hasRole()->first()->role)
         );
     }

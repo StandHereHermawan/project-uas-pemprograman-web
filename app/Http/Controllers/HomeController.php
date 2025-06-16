@@ -132,7 +132,9 @@ class HomeController extends Controller
             return back()->withErrors($validator->getMessageBag());
         }
 
-        $userModel = User::select()->where('email', '=', $email)->first();
+        $userModel = User::select()
+            ->where('email', '=', $email)
+            ->first();
 
         $acceptedInput = $validator->validated();
 
@@ -150,6 +152,7 @@ class HomeController extends Controller
                 "jumlah" => $acceptedInput['stok-barang']
             ]
         );
+
         DB::commit();
 
         return redirect()->route('home');
@@ -191,53 +194,72 @@ class HomeController extends Controller
         /**
          * @var \Illuminate\Validation\Validator
          */
-        $validator = Validator::make($orderedGoods, [
-            "goods-id" => ['required'],
-            "goods-name" => ['min:4'],
-            'harga' => ['numeric', 'min:1000'],
-            'stok-barang' => ['numeric', 'min:1']
-        ]);
+        $validator = Validator::make(
+            $orderedGoods,
+            [
+                "goods-id" => ['required'],
+                "goods-name" => ['min:4'],
+                'harga' => ['numeric', 'min:1000'],
+                'stok-barang' => ['numeric', 'min:1']
+            ]
+        );
 
         if ($validator->fails()) {
             # code...
             return back()->withErrors($validator->getMessageBag());
         }
 
+        /**
+         * @var \App\Models\User
+         */
         $userModel = User::select()
             ->where('email', '=', $email)
             ->first();
 
         $acceptedInput = $validator->validated();
 
-        DB::beginTransaction();
+        DB::transaction(function () use ($userModel, $acceptedInput) {
 
-        $barangJualanModel = BarangJualan::select()
-            ->where('id', '=', $acceptedInput['goods-id'])
-            ->first();
+            /**
+             * @var \App\Models\BarangJualan
+             */
+            $barangJualanModel = BarangJualan::select()
+                ->where(
+                    'id',
+                    '=',
+                    $acceptedInput['goods-id']
+                )
+                ->first();
 
-        $stokBarangModel = StokBarang::select()
-            ->where('id_barang_jualan', '=', $acceptedInput['goods-id'])
-            ->first();
+            /**
+             * @var \App\Models\StokBarang
+             */
+            $stokBarangModel = StokBarang::select()
+                ->where(
+                    'id_barang_jualan',
+                    '=',
+                    $acceptedInput['goods-id']
+                )
+                ->first();
 
-        if ($barangJualanModel->getNamaBarang() !== $acceptedInput['goods-name']) {
-            $barangJualanModel->update([
-                "nama_barang" => $acceptedInput['goods-name'],
-            ]);
-        }
+            if ($barangJualanModel->getNamaBarang() !== $acceptedInput['goods-name']) {
+                $barangJualanModel->update([
+                    "nama_barang" => $acceptedInput['goods-name'],
+                ]);
+            }
 
-        if ($barangJualanModel->getHarga() !== $acceptedInput['harga']) {
-            $barangJualanModel->update([
-                "harga" => $acceptedInput['harga'],
-            ]);
-        }
+            if ($barangJualanModel->getHarga() !== $acceptedInput['harga']) {
+                $barangJualanModel->update([
+                    "harga" => $acceptedInput['harga'],
+                ]);
+            }
 
-        if ($stokBarangModel->jumlah !== $acceptedInput['stok-barang']) {
-            $stokBarangModel->update([
-                "jumlah" => $acceptedInput['stok-barang'],
-            ]);
-        }
-
-        DB::commit();
+            if ($stokBarangModel->jumlah !== $acceptedInput['stok-barang']) {
+                $stokBarangModel->update([
+                    "jumlah" => $acceptedInput['stok-barang'],
+                ]);
+            }
+        });
 
         return redirect()->route('home');
     }
@@ -262,7 +284,11 @@ class HomeController extends Controller
 
         if ($validator->fails()) {
             # code...
-            return back()->withErrors(["quantity" => $validator->errors()->getMessages()]);
+            return back()->withErrors([
+                "quantity" => $validator
+                    ->errors()
+                    ->getMessages()
+            ]);
         }
 
         /**

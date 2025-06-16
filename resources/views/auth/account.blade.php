@@ -151,7 +151,7 @@
     <script>
         document.getElementById('backButton').addEventListener('click', function () {
             if (window.history.length > 1) {
-                window.history.back();
+                window.location.href = '{{ url()->to('home') }}';
             } else {
                 window.location.href = '{{ url()->to('home') }}';
             }

@@ -524,9 +524,9 @@
         @if ($userRole === "SELLER")
             <div>
                 <h1 class="text-center display-1 opacity-50">
-                    PENJUALAN
+                    {{--PENJUALAN--}}
                 </h1>
-                <hr />
+                {{--<hr />
             </div>
 
             @if (isset($transaction))
@@ -615,7 +615,7 @@
                     <h4 class="text-muted">Tidak ada transaksi</h4>
                     <p class="text-muted">Belum ada riwayat transaksi yang tersedia</p>
                 </div>
-            @endif
+            @endif--}}
         @endif
     </main>
     <!-- End of Main Content -->
